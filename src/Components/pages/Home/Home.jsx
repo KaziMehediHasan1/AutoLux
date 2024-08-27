@@ -1,3 +1,4 @@
+import CarCard from "./CarCard";
 import CarType from "./CarType";
 import Hero from "./Hero";
 
@@ -6,6 +7,7 @@ const Home = () => {
     <div>
       <Hero></Hero>
       <CarType></CarType>
+      <CarCard></CarCard>
     </div>
   );
 };

@@ -9,11 +9,11 @@ import img8 from "../../../assets/truck.svg";
 import img9 from "../../../assets/van.svg";
 const CarType = () => {
   return (
-    <div className="max-w-screen-xl mt-28 mx-auto">
+    <div className="max-w-screen-xl mt-8 md:mt-28 mx-auto">
       <h1 className="font-primary font-bold text-center text-4xl">
         Browse by Type
       </h1>
-      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-9 mt-10">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-9 mt-10 gap-5">
         <div className="border mx-auto px-6 rounded-lg py-3 shadow-sm w-28">
           <img src={img1} alt="bmw" className="w-9 h-10 mx-auto" />
           <p className="text-center">BMW</p>
