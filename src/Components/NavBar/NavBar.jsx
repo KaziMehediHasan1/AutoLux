@@ -8,9 +8,9 @@ const NavBar = () => {
     navDialog.classList.toggle("hidden");
   };
   return (
-    <nav className="flex items-center justify-between bg-white font-primary px-10 p-3 text-gray-800">
+    <nav className="flex items-center justify-between font-primary px-10 p-3 text-gray-800 fixed z-50 w-full">
       {/* logo */}
-      <Link to="/" className="text-2xl gap-2 font-medium font-primary ">
+      <Link to="/" className="text-2xl gap-2 font-primary font-semibold ">
         AutoLux
       </Link>
       {/* toggle button */}
@@ -46,7 +46,7 @@ const NavBar = () => {
       {/* signIn , signUp*/}
       <NavLink
         to="signIn"
-        className="border-2 py-1 px-5 font-primary rounded-xl border-blue-500 font-medium "
+        className="border-2 py-1 px-5 font-primary rounded-xl border-blue-500 font-medium hidden md:block"
       >
         SignIn
       </NavLink>
