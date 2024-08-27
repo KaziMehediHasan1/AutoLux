@@ -1,11 +1,9 @@
-
-
 const Home = () => {
-  return (
-    <div>
-      <h1>dkd</h1>
-    </div>
-  );
+    return (
+        <div>
+           dhf 
+        </div>
+    );
 };
 
 export default Home;

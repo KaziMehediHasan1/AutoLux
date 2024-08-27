@@ -3,15 +3,15 @@ import NavBar from "../NavBar/navbar";
 import Footer from "../Footer/Footer";
 
 const Root = () => {
-    return (
-        <div>
-            <NavBar></NavBar>
-            <div>
-                <Outlet></Outlet>
-            </div>
-            <Footer></Footer>
-        </div>
-    );
+  return (
+    <div>
+      <NavBar></NavBar>
+      <div>
+        <Outlet></Outlet>
+      </div>
+      <Footer></Footer>
+    </div>
+  );
 };
 
 export default Root;
