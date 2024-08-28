@@ -12,7 +12,7 @@ const MostSearch = () => {
         The Most Searched Cars
       </h1>
       {/* tabs */}
-      <div className="flex items-center text-gray-800 w-full border-b justify-center mt-10">
+      <div className="flex items-center text-gray-800 w-full border-b justify-center mt-10 container mx-auto">
         <Link
           rel="noopener noreferrer"
           href="#"
@@ -43,7 +43,7 @@ const MostSearch = () => {
         </Link>
       </div>
       {/* cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 ">
         <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
           <img
             src={carone}
@@ -68,7 +68,7 @@ const MostSearch = () => {
                 <p className="text-center">Automatic</p>
               </div>
             </div>
-              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-semibold">View Details</button>
+              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
         <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
@@ -95,7 +95,7 @@ const MostSearch = () => {
                 <p className="text-center">Automatic</p>
               </div>
             </div>
-              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-semibold">View Details</button>
+              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
         <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
@@ -122,7 +122,7 @@ const MostSearch = () => {
                 <p className="text-center">Automatic</p>
               </div>
             </div>
-              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-semibold">View Details</button>
+              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
         <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
@@ -149,7 +149,7 @@ const MostSearch = () => {
                 <p className="text-center">Automatic</p>
               </div>
             </div>
-              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-semibold">View Details</button>
+              <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
       </div>
