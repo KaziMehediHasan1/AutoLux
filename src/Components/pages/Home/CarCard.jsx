@@ -3,7 +3,7 @@ import car1 from "../../../assets/electric-car.svg.svg";
 import car2 from "../../../assets/electric-car2.svg.svg";
 const CarCard = () => {
   return (
-    <div className="max-w-screen-xl mt-8 md:mt-20 mx-auto">
+    <div className="max-w-[1320px] mt-8 md:mt-20 mx-auto">
       <div className="md:flex md:gap-10 grid px-8">
         <div className="md:w-[675px] w-80 bg-[#E9F2FF] rounded-lg p-10">
           <h2 className="text-2xl font-bold">Are You Looking For a Car ?</h2>

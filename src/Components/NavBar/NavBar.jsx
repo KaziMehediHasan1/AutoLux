@@ -7,10 +7,24 @@ const NavBar = () => {
   const handleToggle = () => {
     navDialog.classList.toggle("hidden");
   };
+
+  window.addEventListener("scroll", function () {
+    const navbar = document.getElementById("nav-bar");
+    if (window.scrollY > 50) {
+      navbar.classList.add("bg-white", "shadow-md");
+      navbar.classList.remove("bg-transparent");
+    } else {
+      navbar.classList.add("bg-transparent");
+      navbar.classList.remove("bg-white", "shadow-md");
+    }
+  });
   return (
-    <nav className="flex items-center justify-between font-primary px-10 p-3 text-gray-800 fixed z-50 w-full">
+    <nav
+      id="nav-bar"
+      className="flex items-center justify-between font-primary px-10 p-3 text-gray-800 fixed z-50 w-full transition-all duration-500 left-0 top-0"
+    >
       {/* logo */}
-      <Link to="/" className="text-2xl gap-2 font-primary font-semibold ">
+      <Link to="/" className="text-2xl gap-2 font-primary font-semibold">
         AutoLux
       </Link>
       {/* toggle button */}

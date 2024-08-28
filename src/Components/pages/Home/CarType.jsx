@@ -9,7 +9,7 @@ import img8 from "../../../assets/truck.svg";
 import img9 from "../../../assets/van.svg";
 const CarType = () => {
   return (
-    <div className="max-w-screen-xl mt-8 md:mt-28 mx-auto">
+    <div className="max-w-[1320px] mt-8 md:mt-28 mx-auto">
       <h1 className="font-primary font-bold text-center text-4xl">
         Browse by Type
       </h1>

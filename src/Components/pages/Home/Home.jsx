@@ -1,6 +1,7 @@
 import CarCard from "./CarCard";
 import CarType from "./CarType";
 import Hero from "./Hero";
+import MostSearch from "./MostSearch";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <Hero></Hero>
       <CarType></CarType>
       <CarCard></CarCard>
+      <MostSearch></MostSearch>
     </div>
   );
 };
