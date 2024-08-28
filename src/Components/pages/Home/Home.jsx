@@ -17,7 +17,7 @@ const Home = () => {
       <Choose></Choose>
       <LatestCars></LatestCars>
       <OurTeam></OurTeam>
-      {/* <Blog></Blog> */}
+      <Blog></Blog>
     </div>
   );
 };
