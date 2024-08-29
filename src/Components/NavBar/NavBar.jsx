@@ -21,7 +21,7 @@ const NavBar = () => {
   return (
     <nav
       id="nav-bar"
-      className="flex items-center justify-between font-primary px-10 p-3 text-gray-800 fixed z-50 w-full transition-all duration-500 left-0 top-0"
+      className="flex items-center justify-between font-primary px-10 p-3 text-gray-800 fixed z-10 w-full transition-all duration-500 left-0 top-0"
     >
       {/* logo */}
       <Link to="/" className="text-2xl gap-2 font-primary font-semibold">
@@ -71,7 +71,7 @@ const NavBar = () => {
         className="fixed bg-white inset-0 z-10 md:hidden hidden"
       >
         <div id="nav-bar" className="flex items-center justify-between p-3">
-          <Link to="/" className="text-2xl gap-2 font-medium font-primary ">
+          <Link to="/" className="text-2xl gap-2 font-bold font-primary ">
             AutoLux
           </Link>
           <button

@@ -43,8 +43,8 @@ const MostSearch = () => {
         </Link>
       </div>
       {/* cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 ">
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto bg-gray-900 rounded-lg">
           <div className="overflow-hidden">
           <img
             src={carone}
@@ -73,7 +73,7 @@ const MostSearch = () => {
               <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto bg-gray-900 rounded-lg">
           <div className="overflow-hidden">
           <img
             src={carone}
@@ -102,7 +102,7 @@ const MostSearch = () => {
               <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto  bg-gray-900 rounded-lg">
           <div className="overflow-hidden">
           <img
             src={carone}
@@ -131,7 +131,7 @@ const MostSearch = () => {
               <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto bg-gray-900 rounded-lg">
           <div className="overflow-hidden">
           <img
             src={carone}

@@ -6,7 +6,7 @@ const LatestCars = () => {
     <div className="max-w-[1320px] mx-auto mt-20 font-primary">
       <h1 className="text-center text-4xl font-bold">Latest Cars</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 ">
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] mx-auto flex-shrink-0  bg-gray-900 rounded-lg">
           <img
             src={carone}
             alt="cars"
@@ -35,7 +35,7 @@ const LatestCars = () => {
             </button>
           </div>
         </div>
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto bg-gray-900 rounded-lg">
           <img
             src={carone}
             alt="cars"
@@ -64,7 +64,7 @@ const LatestCars = () => {
             </button>
           </div>
         </div>
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto  bg-gray-900 rounded-lg">
           <img
             src={carone}
             alt="cars"
@@ -93,7 +93,7 @@ const LatestCars = () => {
             </button>
           </div>
         </div>
-        <div className="w-[300px] h-[420px] flex-shrink-0  bg-gray-900 rounded-lg">
+        <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto bg-gray-900 rounded-lg">
           <img
             src={carone}
             alt="cars"
