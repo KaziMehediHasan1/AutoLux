@@ -7,10 +7,24 @@ const Join = () => {
       <p className="font-primary font-medium text-center text-gray-500 mt-2">
         Receive pricing updates, shopping tips & more!
       </p>
-      <div className="input input-bordered flex items-center mt-4 max-w-[350px] mx-auto md:max-w-[500px]">
-        <input type="text" className="grow" placeholder="Search" />
-        <button className="bg-blue-500 py-2 px-4 text-white font-primary rounded-md">Sign Up</button>
-      </div>
+      {/* button */}
+
+      <form className="mt-5 px-8 md:px-0">
+        <div class="relative ">
+          <input
+            type="text"
+            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="subscribe"
+            required
+          />
+          <button
+            type="submit"
+            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Subscribe
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

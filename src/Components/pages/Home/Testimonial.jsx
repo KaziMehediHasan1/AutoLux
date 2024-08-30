@@ -6,19 +6,19 @@ const Testimonial = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div className="text-center">
           <h1 className="uppercase font-bold text-3xl">801M</h1>
-          <p className="text-gray-500 text-center uppercase">cars for sale</p>
+          <p className="text-gray-500 text-center uppercase text-sm">cars for sale</p>
         </div>
         <div className="text-center">
           <h1 className="uppercase font-bold text-3xl">801M</h1>
-          <p className="text-gray-500 text-center uppercase">cars for sale</p>
+          <p className="text-gray-500 text-center uppercase text-sm">DEALER REVIEWS</p>
         </div>
         <div className="text-center">
           <h1 className="uppercase font-bold text-3xl">801M</h1>
-          <p className="text-gray-500 text-center uppercase">cars for sale</p>
+          <p className="text-gray-500 text-center uppercase text-sm">VISITORS PER DAY</p>
         </div>
         <div className="text-center">
           <h1 className="uppercase font-bold text-3xl">801M</h1>
-          <p className="text-gray-500 text-center uppercase">cars for sale</p>
+          <p className="text-gray-500 text-center uppercase text-sm">VERIFIED DEALERS</p>
         </div>
         
       </div>

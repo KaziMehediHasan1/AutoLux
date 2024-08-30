@@ -12,7 +12,7 @@ const MostSearch = () => {
         The Most Searched Cars
       </h1>
       {/* tabs */}
-      <div className="flex items-center text-gray-800 w-full border-b justify-center mt-10 container mx-auto">
+      <div className="flex items-center text-gray-800 md:w-full border-b justify-center mt-10  lg:mx-auto">
         <Link
           rel="noopener noreferrer"
           href="#"
@@ -43,7 +43,7 @@ const MostSearch = () => {
         </Link>
       </div>
       {/* cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-6 mt-10">
         <div className="w-[300px] h-[420px] flex-shrink-0 mx-auto bg-gray-900 rounded-lg">
           <div className="overflow-hidden">
           <img
