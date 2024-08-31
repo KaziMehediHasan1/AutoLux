@@ -1,6 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../../../Firebase/Firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
@@ -15,6 +20,11 @@ const AuthProvider = ({ children }) => {
   const loginUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
+  };
+  // logout user..
+  const logOutUser = () => {
+    setLoading(true);
+    return signOut(auth);
   };
   // authentication state observer and get user data..
   useEffect(() => {
@@ -32,6 +42,7 @@ const AuthProvider = ({ children }) => {
     loginUser,
     loading,
     currentUser,
+    logOutUser,
   };
   // return context..
   return (

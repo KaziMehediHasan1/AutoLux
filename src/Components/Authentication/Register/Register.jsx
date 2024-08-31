@@ -3,16 +3,32 @@ import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { toast } from "react-toastify";
 const Register = () => {
+  const { registerUser, loading } = useContext(AuthContext);
   // register user using react hook form and validation..
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    await registerUser(data.email, data.password)
+      .then((result) => {
+        const regUser = result.user;
+        if (regUser) {
+          toast.success("Registration Successfully complete");
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
+  if (loading) {
+    <p>Loading...</p>;
+  }
   return (
     <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-36 font-primary">
       <Helmet>
@@ -63,7 +79,7 @@ const Register = () => {
           <input
             type="email"
             placeholder="Email"
-            {...register("Email", { required: true })}
+            {...register("email", { required: true })}
             className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
           />
           {errors.Email && <p>Email is required</p>}
@@ -88,7 +104,9 @@ const Register = () => {
           <div className="flex items-center space-x-2">
             <input {...register("check", { required: true })} type="checkbox" />
             <p>Keep me signed in </p>
-            {errors.check&& <p className="text-blue-600">||  please checked this</p>}
+            {errors.check && (
+              <p className="text-blue-600">|| please checked this</p>
+            )}
           </div>
 
           <p className="underline text-blue-600">Lost Your Password?</p>

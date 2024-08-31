@@ -24,6 +24,7 @@ const Hero = () => {
       </div>
 
       <img src={HeroImg} alt="hero-image" className="mx-auto lg:pt-[400px] pt-[420px]" />
+      
     </div>
   );
 };

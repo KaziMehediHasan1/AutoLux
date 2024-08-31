@@ -22,6 +22,7 @@ const Home = () => {
       <Blog></Blog>
       <Testimonial></Testimonial>
       <Join></Join>
+      
     </div>
   );
 };

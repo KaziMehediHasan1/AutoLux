@@ -1,9 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import { RxCross1 } from "react-icons/rx";
+import { useContext } from "react";
+import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
 
 const NavBar = () => {
   const navDialog = document.getElementById("nav-dialog");
+  // context to get current user and her state.
+  const { loading, currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   const handleToggle = () => {
     navDialog.classList.toggle("hidden");
   };

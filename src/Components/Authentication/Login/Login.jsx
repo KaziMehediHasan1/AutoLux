@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import { toast } from "react-toastify";
 const Login = () => {
   const { loginUser, loading } = useContext(AuthContext);
   // use react hook form and validate field.
@@ -14,15 +15,23 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    try {
-      await loginUser(data.email, data.password).then((result) => {
+    await loginUser(data.email, data.password)
+      .then((result) => {
         const loggedInUser = result.user;
-        if(loggedInUser){
-          
+        console.log(loggedInUser, "21no line login page");
+        if (loggedInUser) {
+          toast.success("LoggedIn Successful");
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Login Failed");
       });
-    } catch (error) {}
   };
+
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
   return (
     <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-36 font-primary">
       <Helmet>
