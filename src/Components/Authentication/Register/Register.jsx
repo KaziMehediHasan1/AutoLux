@@ -2,8 +2,17 @@ import { Helmet } from "react-helmet-async";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, NavLink } from "react-router-dom";
-
+import { useForm } from "react-hook-form";
 const Register = () => {
+  // register user using react hook form and validation..
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-36 font-primary">
       <Helmet>
@@ -27,34 +36,59 @@ const Register = () => {
           Register
         </NavLink>
       </div>
-      <form className="pt-5 space-y-3 ">
-        <input
-          type="text"
-          placeholder="UserName"
-          defaultValue="Kazi Mehedi "
-          className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className="pt-5 space-y-3 ">
+        <div>
+          <input
+            type="text"
+            placeholder="UserName"
+            defaultValue="Kazi Mehedi"
+            {...register("firstName", {
+              required: true,
+              pattern: {
+                message: "FirstName is required",
+              },
+            })}
+            className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
+          />
+          {errors.firstName && <p>FirstName is required</p>}
+        </div>
         <input
           type="text"
           placeholder="Last Name"
           defaultValue="Hasan"
+          {...register("lastName")}
           className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
         />
-        <input
-          type="email"
-          placeholder="Email"
-          className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          defaultValue="111111122554544"
-          className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
-        />
+        <div>
+          <input
+            type="email"
+            placeholder="Email"
+            {...register("Email", { required: true })}
+            className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
+          />
+          {errors.Email && <p>Email is required</p>}
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Password"
+            {...register("password", {
+              required: true,
+              pattern: {
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                message:
+                  "Password must be at least 8 characters long and contain at least one letter and one number",
+              },
+            })}
+            className="border px-20 py-2 rounded-lg md:w-[500px] w-[300px]"
+          />
+          {errors.password && <p>{errors.password.message}</p>}
+        </div>
         <div className="flex justify-between items-center px-3 text-sm">
           <div className="flex items-center space-x-2">
-            <input type="checkbox" />
+            <input {...register("check", { required: true })} type="checkbox" />
             <p>Keep me signed in </p>
+            {errors.check&& <p className="text-blue-600">||  please checked this</p>}
           </div>
 
           <p className="underline text-blue-600">Lost Your Password?</p>
