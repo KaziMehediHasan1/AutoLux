@@ -3,14 +3,29 @@ import { CiMenuBurger } from "react-icons/ci";
 import { RxCross1 } from "react-icons/rx";
 import { useContext } from "react";
 import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
+import { toast } from "react-toastify";
+import { Tooltip } from "@mui/material";
 
 const NavBar = () => {
   const navDialog = document.getElementById("nav-dialog");
   // context to get current user and her state.
-  const { loading, currentUser } = useContext(AuthContext);
+  const { loading, currentUser, logOutUser, GoogleLogin } =
+    useContext(AuthContext);
   console.log(currentUser);
   const handleToggle = () => {
     navDialog.classList.toggle("hidden");
+  };
+  // logout.
+  const handleLogout = () => {
+    logOutUser()
+      .then((result) => {
+        if (result) {
+          toast("SignOut Successfully");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   window.addEventListener("scroll", function () {
@@ -105,12 +120,22 @@ const NavBar = () => {
       </div>
 
       {/* signIn , signUp*/}
-      <NavLink
-        to="/login"
-        className="border-2 py-1 px-5 font-primary rounded-xl border-blue-500 font-medium hidden md:block"
-      >
-        SignIn
-      </NavLink>
+      {currentUser ? (
+        <Link to="/profile" className="avatar hidden md:block">
+          <Tooltip title="profile" placement="left-end">
+            <div className="w-[40px] rounded-full ring ring-offset-2">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </Tooltip>
+        </Link>
+      ) : (
+        <NavLink
+          to="/login"
+          className="border-2 py-1 px-5 font-primary rounded-xl border-blue-500 font-medium hidden md:block"
+        >
+          SignIn
+        </NavLink>
+      )}
 
       {/* mobile & tablet device */}
       <div
@@ -191,14 +216,33 @@ const NavBar = () => {
           >
             Contact
           </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg border-b-2 border-blue-600"
+                : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
+            }
+            to="/profile"
+          >
+            Profile
+          </NavLink>
         </div>
         <div className="border h-[1px]"></div>
-        <NavLink
-          to="/login"
-          className=" py-2 px-6 font-primary  block mt-2 hover:text-blue-600 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg font-bold"
-        >
-          SignIn
-        </NavLink>
+        {currentUser ? (
+          <NavLink
+            onClick={handleLogout}
+            className=" py-2 px-6 font-primary  block mt-2 hover:text-blue-600 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg font-bold"
+          >
+            Sign Out
+          </NavLink>
+        ) : (
+          <NavLink
+            to="/login"
+            className=" py-2 px-6 font-primary  block mt-2 hover:text-blue-600 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg font-bold"
+          >
+            SignIn
+          </NavLink>
+        )}
       </div>
     </nav>
   );

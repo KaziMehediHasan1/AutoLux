@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,10 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
 const Login = () => {
-  const { loginUser, loading } = useContext(AuthContext);
+  const { loginUser, loading, GoogleLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
   // use react hook form and validate field.
   const {
     register,
@@ -26,6 +29,20 @@ const Login = () => {
       .catch((error) => {
         console.error(error);
         toast.error("Login Failed");
+      });
+  };
+  // google login setup..
+  const handleGoogleLogin = () => {
+    GoogleLogin()
+      .then((result) => {
+        if (result) {
+          toast.success("Google login successful");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error("Google login unsuccessful");
       });
   };
 
@@ -91,10 +108,13 @@ const Login = () => {
             <FaFacebookF className="md:w-7" />
             <p>Login with Facebook</p>
           </Link>
-          <Link className="flex text-xs md:text-sm items-center md:py-3 border rounded-lg justify-center space-x-2 border-yellow-800 text-yellow-800">
+          <button
+            onClick={handleGoogleLogin}
+            className="flex text-xs md:text-sm items-center md:py-3 border rounded-lg justify-center space-x-2 border-yellow-800 text-yellow-800"
+          >
             <FcGoogle className="md:w-7" />
             <p>Login with Google </p>
-          </Link>
+          </button>
         </div>
       </form>
     </div>

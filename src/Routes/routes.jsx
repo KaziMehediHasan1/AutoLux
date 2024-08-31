@@ -4,6 +4,8 @@ import Root from "../Components/Root/root";
 import Home from "../Components/pages/Home/Home";
 import Login from "../Components/Authentication/Login/Login";
 import Register from "../Components/Authentication/Register/Register";
+import Profile from "../Components/Pages/Profile/Profile";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -21,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
       },
     ],
   },
