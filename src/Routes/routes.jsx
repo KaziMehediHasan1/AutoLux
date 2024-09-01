@@ -6,6 +6,8 @@ import Login from "../Components/Authentication/Login/Login";
 import Register from "../Components/Authentication/Register/Register";
 import Profile from "../Components/Pages/Profile/Profile";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Blogs from "../Components/Pages/Blog/Blogs";
+import Contact from "../Components/Pages/Contact/Contact";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -15,6 +17,14 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/blogs",
+        element: (
+          <PrivateRoute>
+            <Blogs></Blogs>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",
@@ -31,6 +41,10 @@ export const router = createBrowserRouter([
             <Profile></Profile>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/contact",
+        element: <Contact></Contact>,
       },
     ],
   },

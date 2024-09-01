@@ -9,7 +9,7 @@ import { Tooltip } from "@mui/material";
 const NavBar = () => {
   const navDialog = document.getElementById("nav-dialog");
   // context to get current user and her state.
-  const { loading, currentUser, logOutUser, GoogleLogin } =
+  const { loading, currentUser, logOutUser } =
     useContext(AuthContext);
   console.log(currentUser);
   const handleToggle = () => {

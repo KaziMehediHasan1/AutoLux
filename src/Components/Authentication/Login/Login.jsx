@@ -7,10 +7,9 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
 const Login = () => {
-  const { loginUser, loading, GoogleLogin } = useContext(AuthContext);
+  const { loginUser, loading, GoogleLogin, FBLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   // use react hook form and validate field.
   const {
     register,
@@ -21,9 +20,9 @@ const Login = () => {
     await loginUser(data.email, data.password)
       .then((result) => {
         const loggedInUser = result.user;
-        console.log(loggedInUser, "21no line login page");
         if (loggedInUser) {
           toast.success("LoggedIn Successful");
+          navigate(location.pathname ? location.pathname : "/");
         }
       })
       .catch((error) => {
@@ -35,7 +34,7 @@ const Login = () => {
   const handleGoogleLogin = () => {
     GoogleLogin()
       .then((result) => {
-        if (result) {
+        if (result?.user) {
           toast.success("Google login successful");
           navigate("/");
         }
@@ -46,6 +45,19 @@ const Login = () => {
       });
   };
 
+  // Facebook Login system..
+  const handleFBLogin = () => {
+    FBLogin()
+      .then((result) => {
+        if (result?.user) {
+          toast.success("Facebook login successful");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Facebook login failed");
+      });
+  };
   // if (loading) {
   //   return <p>Loading...</p>;
   // }
@@ -104,10 +116,13 @@ const Login = () => {
           Login
         </button>
         <div className="grid grid-cols-2 gap-x-4">
-          <Link className="flex items-center text-xs md:text-sm border py-3 rounded-lg justify-center space-x-2 border-blue-600 text-blue-600">
+          <button
+            onClick={handleFBLogin}
+            className="flex items-center text-xs md:text-sm border py-3 rounded-lg justify-center space-x-2 border-blue-600 text-blue-600"
+          >
             <FaFacebookF className="md:w-7" />
             <p>Login with Facebook</p>
-          </Link>
+          </button>
           <button
             onClick={handleGoogleLogin}
             className="flex text-xs md:text-sm items-center md:py-3 border rounded-lg justify-center space-x-2 border-yellow-800 text-yellow-800"
