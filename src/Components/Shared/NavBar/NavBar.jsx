@@ -113,7 +113,7 @@ const NavBar = () => {
               ? "hover:text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
           }
-          to="/contact"
+          to=" "
         >
           Contact
         </NavLink>
