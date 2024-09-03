@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 import car1 from "../../../assets/car13-660x440.jpg.png";
 const Blog = () => {
   return (
-    <div className="max-w-[1320px] mx-auto mt-10">
-      <h1 className="text-center text-4xl font-semibold">Latest Blog Posts</h1>
+    <div className="max-w-[1320px] mx-auto mt-10 font-primary">
+      <h1 className="text-center text-4xl font-semibold font-primary">Latest Blog Posts</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-14 lg:gap-28 md:gap-5 gap-5">
         <NavLink className="lg:w-[390px] w-[350px] lg:h-[240px]  mx-auto">
           <div className="overflow-hidden rounded-lg">

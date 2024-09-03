@@ -1,17 +1,34 @@
 import { Link, NavLink } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import { RxCross1 } from "react-icons/rx";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
 import { Tooltip } from "@mui/material";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 const NavBar = () => {
   const navDialog = document.getElementById("nav-dialog");
   // context to get current user and her state.
-  const { loading, currentUser, logOutUser } =
-    useContext(AuthContext);
-  console.log(currentUser);
+  const { loading, currentUser, logOutUser } = useContext(AuthContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  const handleMouseEnter = () => setIsOpen(true);
+
+  // sm screen toggle bar
   const handleToggle = () => {
     navDialog.classList.toggle("hidden");
   };
@@ -57,26 +74,77 @@ const NavBar = () => {
 
       {/* Desktop navigation */}
       <div className="md:flex items-center justify-center  mx-auto lg:gap-14 md:gap-x-7 hidden">
+        <div
+          className="relative"
+          onMouseEnter={handleMouseEnter}
+          ref={dropdownRef}
+        >
+          <div className="flex items-center">
+            <NavLink
+              onClick={() => setIsOpen(!isOpen)}
+              className={({ isActive }) =>
+                isActive
+                  ? "hover:text-blue-600 border-b-2 border-blue-600"
+                  : "hover:text-blue-600"
+              }
+            >
+              Home
+            </NavLink>
+            <RiArrowDropDownLine />
+          </div>
+          {isOpen && (
+            <ul className="absolute left-0 right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+              <li>
+                <Link
+                  to="/service"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Service
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/about"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/accessories"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Accessories
+                </Link>
+              </li>
+            </ul>
+          )}
+        </div>
+        {currentUser && (
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "hover:text-blue-600 border-b-2 border-blue-600"
+                : "hover:text-blue-600"
+            }
+            to="/user-dashboard"
+          >
+            Dashboard
+          </NavLink>
+        )}
         <NavLink
           className={({ isActive }) =>
             isActive
               ? "hover:text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
           }
-          to="/"
+          to="/membership"
         >
-          Home
+          Membership
         </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "hover:text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }
-          to="/listings"
-        >
-          Listings
-        </NavLink>
+
         <NavLink
           className={({ isActive }) =>
             isActive
@@ -93,27 +161,18 @@ const NavBar = () => {
               ? "hover:text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
           }
-          to="/pages"
+          to="/shop"
         >
-          Pages
+          Shop
         </NavLink>
+
         <NavLink
           className={({ isActive }) =>
             isActive
               ? "hover:text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
           }
-          to="/about"
-        >
-          About
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "hover:text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }
-          to=" "
+          to="/contact"
         >
           Contact
         </NavLink>
@@ -156,25 +215,58 @@ const NavBar = () => {
         {/* navigation bar */}
 
         <div className="space-y-3 p-3">
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "hover:text-blue-600 border-b-2 border-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
-                : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
-            }
-            to="/"
-          >
-            Home
-          </NavLink>
+          <div className="relative left-3" onMouseEnter={handleMouseEnter}>
+            <div className="flex items-center">
+              <NavLink
+                onClick={() => setIsOpen(!isOpen)}
+                className={({ isActive }) =>
+                  isActive
+                    ? "hover:text-blue-600 border-b-2 border-blue-600"
+                    : "hover:text-blue-600"
+                }
+              >
+                Home
+              </NavLink>
+              <RiArrowDropDownLine />
+            </div>
+            {isOpen && (
+              <ul className="absolute left-0 right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+                <li>
+                  <Link
+                    to="/service"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Service
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/about"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/accessories"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Accessories
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
           <NavLink
             className={({ isActive }) =>
               isActive
                 ? "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg border-b-2 border-blue-600"
                 : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
             }
-            to="/listings"
+            to="/membership"
           >
-            Listings
+            Membership
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -192,20 +284,11 @@ const NavBar = () => {
                 ? "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg border-b-2 border-blue-600"
                 : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
             }
-            to="/pages"
+            to="/shop"
           >
-            Pages
+            Shop
           </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg border-b-2 border-blue-600"
-                : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
-            }
-            to="/about"
-          >
-            About
-          </NavLink>
+
           <NavLink
             className={({ isActive }) =>
               isActive
