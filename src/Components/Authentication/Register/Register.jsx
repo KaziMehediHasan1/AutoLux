@@ -1,14 +1,18 @@
 import { Helmet } from "react-helmet-async";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
+import UseAxiosPublic from "../../Hooks/useAxiosPublic/UseAxiosPublic";
+const image_hosting_key = import.meta.env.VITE_IMGBB_APIKEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const Register = () => {
   const { registerUser, loading, FBLogin, GoogleLogin, updateUser } =
     useContext(AuthContext);
+  const axiosPublic = UseAxiosPublic();
   const location = useLocation();
   const navigate = useNavigate();
   // register user using react hook form and validation..
@@ -18,23 +22,47 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    await registerUser(data.email, data.password)
-      .then((result) => {
-        const regUser = result.user;
-        if (regUser) {
-          updateUser(data?.name, data?.email).then((result) => {
-            const userInfo = {
-              name: data?.name,
-              email: data?.email,
-              photo: data?.image,
-            };
-            console.log("uploaded data", result);
-          });
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
+    const imageFile = { image: data?.image[0] };
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (res.data.success) {
+      const imagePath = res?.data?.data?.url;
+      await registerUser(data.email, data.password)
+        .then((result) => {
+          const regUser = result.user;
+          console.log(regUser);
+          updateUser(data?.name, imagePath)
+            .then(() => {
+              const userInfo = {
+                FirstName: data?.firstName,
+                LastName: data?.lastName,
+                Email: data?.email,
+                Photo: imagePath,
+                Password: data?.password,
+              };
+              axiosPublic
+                .post(`${import.meta.env.VITE_SERVER_PORT}/user`, userInfo)
+                .then((res) => {
+                  if (res.data) {
+                    toast.success("Registration Successfully complete");
+                    navigate(location?.pathname ? location.pathname : "/");
+                  }
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                });
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
+    }
   };
   // google login setup..
   const handleGoogleLogin = () => {
@@ -51,8 +79,6 @@ const Register = () => {
       });
   };
 
-  // toast.success("Registration Successfully complete");
-  // navigate(location?.pathname ? location.pathname : "/");
   // Facebook Login system..
   const handleFBLogin = () => {
     FBLogin()

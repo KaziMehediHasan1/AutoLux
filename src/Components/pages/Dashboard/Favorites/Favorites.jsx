@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet-async";
 
-const Accessories = () => {
+const Favorites = () => {
   return (
     <div>
       <Helmet>
-        <title>AutoLux | Accessories</title>
+        <title>AutoLux | My Favorite</title>
       </Helmet>
     </div>
   );
 };
 
-export default Accessories;
+export default Favorites;

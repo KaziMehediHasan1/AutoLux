@@ -83,7 +83,7 @@ const NavBar = () => {
             <NavLink
               onClick={() => setIsOpen(!isOpen)}
               className={({ isActive }) =>
-                isActive
+                isActive && isOpen
                   ? "hover:text-blue-600 border-b-2 border-blue-600"
                   : "hover:text-blue-600"
               }
@@ -129,7 +129,7 @@ const NavBar = () => {
                 ? "hover:text-blue-600 border-b-2 border-blue-600"
                 : "hover:text-blue-600"
             }
-            to="/user-dashboard"
+            to="/dashboard"
           >
             Dashboard
           </NavLink>
@@ -268,6 +268,7 @@ const NavBar = () => {
           >
             Membership
           </NavLink>
+
           <NavLink
             className={({ isActive }) =>
               isActive

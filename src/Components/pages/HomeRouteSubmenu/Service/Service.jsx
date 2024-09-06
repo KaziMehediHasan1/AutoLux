@@ -6,6 +6,7 @@ import icon1 from "../../../../assets/f1.svg.svg";
 import icon2 from "../../../../assets/f2.svg.svg";
 import icon3 from "../../../../assets/f3.svg.svg";
 import icon4 from "../../../../assets/f4.svg.svg";
+import { Helmet } from "react-helmet-async";
 const Service = () => {
   const settings = {
     dots: true,
@@ -44,6 +45,9 @@ const Service = () => {
 
   return (
     <div className="max-w-[1320px] mx-auto mt-28 font-primary px-4 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>AutoLux | Service</title>
+      </Helmet>
       <div className="lg:flex items-center justify-between bg-white p-8">
         {/* Text Content */}
         <div className="max-w-lg mb-5 text-center lg:text-left mx-auto lg:mx-0">

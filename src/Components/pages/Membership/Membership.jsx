@@ -20,7 +20,7 @@ const Membership = () => {
                 <ul className="flex-1 mb-6 text-gray-600">
                   <li className="flex mb-2 space-x-2">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns="http://www.w3.org/2000/svg" 
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       className="flex-shrink-0 w-6 h-6 text-violet-600"
@@ -231,7 +231,7 @@ const Membership = () => {
             <div className="flex w-full mb-8 sm:px-4 md:w-[360px] h-[440px] lg:mb-0 ">
               <div className="flex flex-grow flex-col p-6 space-y-3 rounded shadow-md sm:p-8 bg-gray-50 ">
                 <div className="space-y-2 ">
-                  <h4 className="text-2xl font-bold">Standard Plan</h4>
+                  <h4 className="text-2xl font-bold">Extended Plan</h4>
                   <span className="text-2xl">$45</span>
                 </div>
                 <p className=" leading-relaxed text-gray-600">
@@ -341,7 +341,7 @@ const Membership = () => {
             <div className="flex w-full mb-8 sm:px-4 md:w-[360px] h-[440px] lg:mb-0 ">
               <div className="flex flex-grow flex-col p-6 space-y-3 rounded shadow-md sm:p-8 bg-gray-50 ">
                 <div className="space-y-2 ">
-                  <h4 className="text-2xl font-bold">Standard Plan</h4>
+                  <h4 className="text-2xl font-bold">Enterprise Plan</h4>
                   <span className="text-2xl">$55</span>
                 </div>
                 <p className=" leading-relaxed text-gray-600">

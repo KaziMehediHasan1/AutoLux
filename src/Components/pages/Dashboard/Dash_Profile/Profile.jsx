@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
+import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";

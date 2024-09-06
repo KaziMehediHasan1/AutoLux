@@ -1,6 +1,7 @@
 const Join = () => {
+  
   return (
-    <div className="max-w-[500px] mx-auto mt-16">
+    <div className="max-w-[500px] mx-auto mt-16 mb-8">
       <h1 className="text-center font-primary font-bold text-4xl">
         Join BoxCar
       </h1>

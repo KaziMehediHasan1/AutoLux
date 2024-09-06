@@ -1,6 +1,11 @@
+import { Helmet } from "react-helmet-async";
+
 const About = () => {
   return (
     <div className="max-w-[1320px] mx-auto md:mt-28 mt-20 font-primary">
+      <Helmet>
+        <title>AutoLux | About</title>
+      </Helmet>
       <p className="text-center font-semibold mb-10 md:text-4xl bg-slate-50 py-5 md:rounded-lg">
         We Value Our Clients And Want Them <br /> To Have A Nice Experience
       </p>
