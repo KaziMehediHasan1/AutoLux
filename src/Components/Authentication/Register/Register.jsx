@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
@@ -13,7 +13,7 @@ const Register = () => {
   const { registerUser, loading, FBLogin, GoogleLogin, updateUser } =
     useContext(AuthContext);
   const axiosPublic = UseAxiosPublic();
-  const location = useLocation();
+
   const navigate = useNavigate();
   // register user using react hook form and validation..
   const {
@@ -22,6 +22,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
+    console.log(data?.image);
     const imageFile = { image: data?.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
@@ -48,7 +49,7 @@ const Register = () => {
                 .then((res) => {
                   if (res.data) {
                     toast.success("Registration Successfully complete");
-                    navigate(location?.pathname ? location.pathname : "/");
+                    navigate("/");
                   }
                 })
                 .catch((err) => {
@@ -97,7 +98,7 @@ const Register = () => {
     <p>Loading...</p>;
   }
   return (
-    <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-36 font-primary">
+    <div className="md:w-[500px] mx-auto w-[300px] pt-32  md:pb-14 font-primary">
       <Helmet>
         <title>AutoLux - SignUp</title>
       </Helmet>
@@ -189,7 +190,7 @@ const Register = () => {
           <p className="underline text-blue-600">Lost Your Password?</p>
         </div>
         <button className="text-center border py-2 rounded-lg bg-blue-600 font-primary font-semibold text-white  md:w-[500px] w-[300px] ">
-          Login
+          Register
         </button>
         <div className="grid grid-cols-2 gap-x-4">
           <button

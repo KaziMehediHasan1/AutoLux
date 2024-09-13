@@ -1,27 +1,10 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
-import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
-  const { currentUser, logOutUser } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
-  // logout.
-  const handleLogout = () => {
-    logOutUser()
-      .then((result) => {
-        if (result) {
-          toast.success("SignOut Successfully");
-          navigate(location.pathname ? location.pathname : "/");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("SignOut Failed");
-      });
-  };
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div className="pt-32 max-w-screen-lg mx-auto font-primary">
       <Helmet>
@@ -39,12 +22,6 @@ const Profile = () => {
         <div className="flex justify-center space-x-5">
           <button className="text-white bg-blue-600 px-4 py-1 rounded-lg">
             Update
-          </button>
-          <button
-            onClick={handleLogout}
-            className="text-white bg-blue-600 px-4 py-1 rounded-lg"
-          >
-            Logout
           </button>
         </div>
       </div>

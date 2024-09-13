@@ -14,11 +14,14 @@ import About from "../Components/Pages/HomeRouteSubmenu/About/About";
 import Accessories from "../Components/Pages/HomeRouteSubmenu/Accessories/Accessories";
 import Membership from "../Components/Pages/Membership/Membership";
 import Dashboard from "../Components/Pages/Dashboard/Dashboard";
-import AddListing from "../Components/Pages/Dashboard/AddListing/AddListing";
 import MyListing from "../Components/Pages/Dashboard/MyListing/MyListing";
 import Favorites from "../Components/Pages/Dashboard/Favorites/Favorites";
 import Message from "../Components/Pages/Dashboard/Message/Message";
 import StaticDashboard from "../Components/Pages/Dashboard/Static-Dashboard/StaticDashboard";
+import Details from "../Components/Pages/Dashboard/AddListing/Details";
+import Feature from "../Components/Pages/Dashboard/AddListing/Feature";
+import Media from "../Components/Pages/Dashboard/AddListing/Media";
+import ListingStep from "../Components/Pages/Dashboard/AddListing/ListingStep";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -71,8 +74,23 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "add-listing",
-            element: <AddListing></AddListing>,
+            element: <ListingStep></ListingStep>,
+            children: [
+              {
+                path: "detail",
+                element: <Details></Details>,
+              },
+              {
+                path: "feature",
+                element: <Feature></Feature>,
+              },
+              {
+                path: "media",
+                element: <Media></Media>,
+              },
+            ],
           },
+
           {
             path: "my-listing",
             element: <MyListing></MyListing>,

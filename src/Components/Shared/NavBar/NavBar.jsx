@@ -10,7 +10,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 const NavBar = () => {
   const navDialog = document.getElementById("nav-dialog");
   // context to get current user and her state.
-  const { loading, currentUser, logOutUser } = useContext(AuthContext);
+  const { currentUser, logOutUser } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -20,6 +20,7 @@ const NavBar = () => {
     }
   };
 
+  console.log(currentUser, "23");
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -48,11 +49,11 @@ const NavBar = () => {
   window.addEventListener("scroll", function () {
     const navbar = document.getElementById("nav-bar");
     if (window.scrollY > 50) {
-      navbar.classList.add("bg-white", "shadow-md");
-      navbar.classList.remove("bg-transparent");
+      navbar?.classList?.add("bg-white", "shadow-md");
+      navbar?.classList?.remove("bg-transparent");
     } else {
-      navbar.classList.add("bg-transparent");
-      navbar.classList.remove("bg-white", "shadow-md");
+      navbar?.classList?.add("bg-transparent");
+      navbar?.classList?.remove("bg-white", "shadow-md");
     }
   });
   return (
@@ -73,7 +74,7 @@ const NavBar = () => {
       </button>
 
       {/* Desktop navigation */}
-      <div className="md:flex items-center justify-center  mx-auto lg:gap-14 md:gap-x-7 hidden">
+      <div className="md:flex items-center justify-center  mx-auto lg:gap-14 md:gap-x-6 hidden">
         <div
           className="relative"
           onMouseEnter={handleMouseEnter}
@@ -90,7 +91,9 @@ const NavBar = () => {
             >
               Home
             </NavLink>
-            <RiArrowDropDownLine />
+            <RiArrowDropDownLine
+              className={`${!isOpen && "rotate-180 duration-300"}`}
+            />
           </div>
           {isOpen && (
             <ul className="absolute left-0 right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
@@ -180,13 +183,21 @@ const NavBar = () => {
 
       {/* signIn , signUp*/}
       {currentUser ? (
-        <Link to="/profile" className="avatar hidden md:block">
-          <Tooltip title="profile" placement="left-end">
-            <div className="w-[40px] rounded-full ring ring-offset-2">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-            </div>
-          </Tooltip>
-        </Link>
+        <div className="md:flex items-center hidden ">
+          <p className="avatar hidden md:block">
+            <Tooltip title="profile" placement="left-end">
+              <div className="lg:w-[40px] md:w-[35px] rounded-full ring ring-offset-2">
+                <img src={currentUser?.photoURL} />
+              </div>
+            </Tooltip>
+          </p>
+          <NavLink
+            onClick={handleLogout}
+            className="border-2 py-1 lg:px-5 md:px-2 lg:ml-4 md:ml-2 font-primary rounded-xl hover:border-blue-500 hover:duration-300 font-medium "
+          >
+            Sign Out
+          </NavLink>
+        </div>
       ) : (
         <NavLink
           to="/login"
@@ -268,7 +279,18 @@ const NavBar = () => {
           >
             Membership
           </NavLink>
-
+          {currentUser && (
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg border-b-2 border-blue-600"
+                  : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
+              }
+              to="/dashboard"
+            >
+              Dashboard
+            </NavLink>
+          )}
           <NavLink
             className={({ isActive }) =>
               isActive
@@ -299,16 +321,6 @@ const NavBar = () => {
             to="/contact"
           >
             Contact
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg border-b-2 border-blue-600"
-                : "hover:text-blue-600 block px-3 py-2 hover:translate-x-2 duration-150 hover:bg-gray-100 rounded-lg"
-            }
-            to="/profile"
-          >
-            Profile
           </NavLink>
         </div>
         <div className="border h-[1px]"></div>

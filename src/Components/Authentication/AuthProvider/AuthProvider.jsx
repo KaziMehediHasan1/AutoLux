@@ -10,11 +10,13 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import UseAxiosPublic from "../../Hooks/useAxiosPublic/UseAxiosPublic";
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState();
   const [currentUser, setCurrentUser] = useState(null);
+  const axiosPublic = UseAxiosPublic();
   // create user(email, pass)..
   const registerUser = (email, password) => {
     setLoading(true);
@@ -50,11 +52,33 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
   // authentication state observer and get user data..
-  useEffect(() => {
-    const unSubscriber = onAuthStateChanged(auth, (user) => {
+  useEffect(() =>{
+    const  unSubscriber =  onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       const loggedInUser = user?.email || currentUser?.email;
-      setLoading(false);
+      if (user) {
+        // Get user's email or token
+        const userEmail = user.email;
+
+        // Get JWT token from server using Axios
+        axiosPublic
+          .post("/jwt", { email: userEmail })
+          .then((res) => {
+            console.log("token pathanor age -", res.data);
+            if (res.data.token) {
+             localStorage.setItem("access-token", res.data.token); // Store token in local storage
+              setLoading(false);
+            }
+          })
+          .catch((err) => {
+            console.error("Error logging in:", err);
+            setLoading(false);
+          });
+      } else {
+        localStorage.removeItem("access-token");
+        setLoading(false);
+      }
+
       console.log(loggedInUser);
     });
     return () => {
@@ -70,7 +94,7 @@ const AuthProvider = ({ children }) => {
     loading,
     currentUser,
     logOutUser,
-    updateUser,  
+    updateUser,
   };
   // return context..
   return (

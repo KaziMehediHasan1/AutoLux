@@ -1,15 +1,15 @@
 import { Helmet } from "react-helmet-async";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import {  NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
+import UseAxiosPublic from "../../Hooks/useAxiosPublic/UseAxiosPublic";
 const Login = () => {
   const { loginUser, loading, GoogleLogin, FBLogin } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
   // use react hook form and validate field.
   const {
     register,
@@ -19,11 +19,9 @@ const Login = () => {
   const onSubmit = async (data) => {
     await loginUser(data.email, data.password)
       .then((result) => {
-        const loggedInUser = result.user;
-        if (loggedInUser) {
-          toast.success("LoggedIn Successful");
-          navigate(location.pathname ? location.pathname : "/");
-        }
+        const loggedInUser = result.user.email;
+        console.log(loggedInUser);
+        
       })
       .catch((error) => {
         console.error(error);
@@ -58,11 +56,11 @@ const Login = () => {
         toast.error("Facebook login failed");
       });
   };
-  // if (loading) {
-  //   return <p>Loading...</p>;
-  // }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
-    <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-36 font-primary">
+    <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-44 md:pb-28 font-primary">
       <Helmet>
         <title>AutoLux - SignIn </title>
       </Helmet>
