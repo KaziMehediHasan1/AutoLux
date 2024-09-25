@@ -54,7 +54,7 @@ const About = () => {
       {/* video */}
       <div className="grid grid-cols-1 lg:grid-cols-2 mt-14 lg:gap-x-20 gap-14 bg-blue-50 p-14 rounded-lg">
         <iframe
-          className="rounded-lg"
+          className="rounded-lg w-full"
           width="600"
           height="320"
           src="https://www.youtube.com/embed/kg2QkkcMreQ?si=N2LbDHb7hfQ3RDV8"

@@ -12,7 +12,10 @@ const CarCard = () => {
             service.
           </p>
           <div className="flex justify-between items-center">
-            <NavLink className=" rounded-lg bg-blue-700 text-white px-3 py-2 h-10">
+            <NavLink
+              to="/listing"
+              className=" rounded-lg bg-blue-700 text-white px-3 py-2 h-10"
+            >
               Get Started
             </NavLink>
             <img src={car1} className="w-20" />
@@ -27,7 +30,10 @@ const CarCard = () => {
             service.
           </p>
           <div className="flex justify-between items-center">
-            <NavLink className=" rounded-lg bg-gray-800 text-white px-3 py-2 h-10">
+            <NavLink
+              to="/dashboard/add-listing"
+              className=" rounded-lg bg-gray-800 text-white px-3 py-2 h-10"
+            >
               Get Started
             </NavLink>
             <img src={car2} className="w-20" />

@@ -1,14 +1,22 @@
 const Membership = () => {
   return (
     <div className="max-w-[1320px] mx-auto mt-8 font-primary">
-      <section className="py-20  text-gray-800">
+      <section className="py-20 text-gray-800 px-5 md:px-0">
         <div className="container px-4 mx-auto">
-          <div className="max-w-2xl mx-auto mb-16 text-center">
+          <div className="max-w-2xl mx-auto mb-16 text-center space-y-3">
             <h2 className="text-4xl font-bold lg:text-5xl">Membership Plans</h2>
+            <p>
+              A membership plan is a subscription-based offering where users pay
+              a recurring fee (monthly, yearly, etc.) to access exclusive
+              content, services, or benefits. This model is often used by
+              websites, apps, and businesses to provide premium features,
+              discounts, or additional resources to members, encouraging
+              customer loyalty and continuous engagement.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 -mx-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-20">
             {/* card */}
-            <div className="flex w-full mb-8 sm:px-4 md:w-[360px] h-[440px] lg:mb-0 ">
+            <div className="flex w-full mb-8 sm:px-4 md:w-[360px] h-[440px]  lg:mb-0 ">
               <div className="flex flex-grow flex-col p-6 space-y-3 rounded shadow-md sm:p-8 bg-gray-50 ">
                 <div className="space-y-2 ">
                   <h4 className="text-2xl font-bold">Basic</h4>
@@ -20,7 +28,7 @@ const Membership = () => {
                 <ul className="flex-1 mb-6 text-gray-600">
                   <li className="flex mb-2 space-x-2">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg" 
+                      xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       className="flex-shrink-0 w-6 h-6 text-violet-600"

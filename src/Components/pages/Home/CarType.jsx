@@ -7,6 +7,7 @@ import img6 from "../../../assets/hybrid.svg";
 import img7 from "../../../assets/sedan.svg";
 import img8 from "../../../assets/truck.svg";
 import img9 from "../../../assets/van.svg";
+import 'animate.css';
 const CarType = () => {
   return (
     <div className="max-w-[1320px] mt-8 md:mt-28 mx-auto">
@@ -14,8 +15,8 @@ const CarType = () => {
         Browse by Type
       </h1>
       <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-9 mt-10 gap-5">
-        <div className="border mx-auto px-6 rounded-lg py-3 shadow-sm w-28">
-          <img src={img1} alt="bmw" className="w-9 h-10 mx-auto" />
+        <div className="border mx-auto px-6 rounded-lg py-3 shadow-sm w-28 ">
+          <img src={img1} alt="bmw" className="w-9 h-10 mx-auto " />
           <p className="text-center">BMW</p>
         </div>
         <div className="border mx-auto px-6 rounded-lg py-3 shadow-sm w-28">

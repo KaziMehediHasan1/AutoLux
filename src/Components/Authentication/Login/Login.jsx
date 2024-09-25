@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import {  NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
@@ -21,7 +21,6 @@ const Login = () => {
       .then((result) => {
         const loggedInUser = result.user.email;
         console.log(loggedInUser);
-        
       })
       .catch((error) => {
         console.error(error);
@@ -57,7 +56,14 @@ const Login = () => {
       });
   };
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="mt-[25%] md:mt-[10%] flex items-center justify-center">
+        <span className="loading loading-ring loading-xs"></span>
+        <span className="loading loading-ring loading-sm"></span>
+        <span className="loading loading-ring loading-md"></span>
+        <span className="loading loading-ring loading-lg"></span>
+      </div>
+    );
   }
   return (
     <div className="md:w-[500px] mx-auto w-[300px] pt-32 md:pt-44 md:pb-28 font-primary">

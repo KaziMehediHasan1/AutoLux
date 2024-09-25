@@ -17,8 +17,10 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CiBookmark } from "react-icons/ci";
+import { CiBookmark, CiPen } from "react-icons/ci";
 import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
+import { RiBookOpenLine } from "react-icons/ri";
+import { IoCarSportOutline } from "react-icons/io5";
 const Dashboard = () => {
   const { logOutUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ const Dashboard = () => {
       <section className="flex">
         {/* sidebar */}
         <div
-          className={`bg-gray-700 h-screen p-5 pt-8 ${
+          className={`bg-blue-900 h-screen p-5 pt-8 ${
             !onSidebar ? "w-72" : "w-20"
           } relative duration-300 rounded-tr-md`}
         >
@@ -57,10 +59,10 @@ const Dashboard = () => {
               onSidebar && "rotate-180"
             }`}
           />
-          <div className="inline-flex space-x-4">
+          <div className={`inline-flex space-x-4 ${!onSidebar && 'pl-3'}`}>
             <FaCarSide
               className={`bg-amber-100 text-3xl p-1 rounded-xl ${
-                onSidebar ? "animate-pulse rotate-[360deg] duration-500" : ""
+                onSidebar && "animate-pulse rotate-[360deg] duration-500"
               }`}
             />
             <h1
@@ -101,7 +103,7 @@ const Dashboard = () => {
                   : "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer"
               }
             >
-              <FontAwesomeIcon
+              <IoCarSportOutline
                 className={`text-3xl ${!onSidebar && "ml-2"}`}
                 icon={faCarOn}
               />
@@ -120,6 +122,29 @@ const Dashboard = () => {
               {!onSidebar && <p>Add Listings</p>}
             </NavLink>
 
+            <NavLink
+              to="all-blogs"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer bg-blue-500"
+                  : "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer"
+              }
+            >
+              <RiBookOpenLine className={`text-3xl ${!onSidebar && "ml-2"}`} />
+              {!onSidebar && <p>Blogs</p>}
+            </NavLink>
+
+            <NavLink
+              to="add-blog"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer bg-blue-500"
+                  : "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer"
+              }
+            >
+              <CiPen className={`text-3xl ${!onSidebar && "ml-2"}`} />
+              {!onSidebar && <p>Add Blogs</p>}
+            </NavLink>
             <NavLink
               to="my-favorites"
               className={({ isActive }) =>
@@ -170,7 +195,7 @@ const Dashboard = () => {
         </div>
 
         {/* Content */}
-        <div className="ml-6 mt-5">
+        <div className={`ml-6 mt-5 ${onSidebar && "lg:ml-36"}`}>
           <Outlet></Outlet>
         </div>
       </section>

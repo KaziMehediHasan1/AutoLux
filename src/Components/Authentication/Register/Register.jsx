@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
@@ -13,7 +13,7 @@ const Register = () => {
   const { registerUser, loading, FBLogin, GoogleLogin, updateUser } =
     useContext(AuthContext);
   const axiosPublic = UseAxiosPublic();
-
+  const location = useLocation();
   const navigate = useNavigate();
   // register user using react hook form and validation..
   const {
@@ -71,7 +71,7 @@ const Register = () => {
       .then((result) => {
         if (result?.user) {
           toast.success("Google login successful");
-          navigate(location?.pathname ? location.pathname : "/");
+          navigate("/");
         }
       })
       .catch((error) => {
@@ -95,10 +95,17 @@ const Register = () => {
       });
   };
   if (loading) {
-    <p>Loading...</p>;
+    return (
+      <div className="mt-[25%] md:mt-[10%] flex items-center justify-center">
+        <span className="loading loading-ring loading-xs"></span>
+        <span className="loading loading-ring loading-sm"></span>
+        <span className="loading loading-ring loading-md"></span>
+        <span className="loading loading-ring loading-lg"></span>
+      </div>
+    );
   }
   return (
-    <div className="md:w-[500px] mx-auto w-[300px] pt-32  md:pb-14 font-primary">
+    <div className="md:w-[500px] mx-auto w-[300px] pt-32 pb-10  md:pb-14 font-primary">
       <Helmet>
         <title>AutoLux - SignUp</title>
       </Helmet>

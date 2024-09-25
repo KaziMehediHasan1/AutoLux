@@ -160,7 +160,6 @@ const MostSearch = () => {
               <button className="w-full mt-3 py-1 bg-blue-500 rounded-md font-medium">View Details</button>
           </div>
         </div>
-        
       </div>
     </div>
   );
