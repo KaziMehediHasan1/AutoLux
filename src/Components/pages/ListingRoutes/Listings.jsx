@@ -73,11 +73,11 @@ const Listings = () => {
       <div className="lg:top-20 md:top-[85px] absolute lg:left-[26%] sm:top-0 md:left-[14%] left-[48px] mx-auto md:py-2 md:px-5 lg:px-2 md:w-[580px] lg:w-[880px] w-[300px] lg:py-3 rounded-3xl shadow-md shadow-blue-200">
         <form onSubmit={handleSubmit}>
           <ul className="grid grid-cols-2 px-10 md:px-0 space-y-2 md:space-y-0 md:grid-cols-4 ">
-            <li className="flex items-center  p-2 md:p-0">
+            <li className="flex items-center p-2 md:p-0">
               <select
                 name="condition"
                 onChange={(e) => setCondition(e.target.value)}
-                className="border-none bg-transparent outline-none appearance-none font-primary"
+                className="border-none bg-transparent outline-none cursor-pointer  appearance-none font-primary"
               >
                 <option selected value="">
                   Condition
@@ -94,7 +94,7 @@ const Listings = () => {
               <select
                 name="make"
                 onChange={(e) => setMake(e.target.value)}
-                className="border-none bg-transparent outline-none appearance-none"
+                className="border-none cursor-pointer  bg-transparent outline-none appearance-none"
               >
                 <option selected value="">
                   Any Make
@@ -111,7 +111,7 @@ const Listings = () => {
               <select
                 name="model"
                 onChange={(e) => setModel(e.target.value)}
-                className="border-none bg-transparent outline-none appearance-none"
+                className="border-none cursor-pointer  bg-transparent outline-none appearance-none"
               >
                 <option selected value="">
                   Any Model
@@ -129,7 +129,7 @@ const Listings = () => {
                 <select
                   name="price"
                   onChange={(e) => setPrice(e.target.value)}
-                  className="border-none bg-transparent outline-none appearance-none"
+                  className="border-none cursor-pointer  bg-transparent outline-none appearance-none"
                 >
                   <option selected value="">
                     All Price

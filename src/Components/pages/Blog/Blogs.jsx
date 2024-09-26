@@ -33,7 +33,7 @@ const Blogs = () => {
     }
   };
 
-  console.log(search);
+  // console.log(search);
   return (
     <div className="max-w-[1320px] mx-auto lg:mt-28 mt-20 lg:mb-36 mb-20">
       <Helmet>

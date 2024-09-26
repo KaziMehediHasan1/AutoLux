@@ -40,7 +40,7 @@ const Hero = () => {
               <select
                 name="condition"
                 onChange={(e) => setCondition(e.target.value)}
-                className="border-none bg-transparent outline-none appearance-none font-primary"
+                className="border-none cursor-pointer  bg-transparent outline-none appearance-none font-primary"
               >
                 <option selected value="">
                   Condition
@@ -57,7 +57,7 @@ const Hero = () => {
               <select
                 name="make"
                 onChange={(e) => setMake(e.target.value)}
-                className="border-none bg-transparent outline-none appearance-none"
+                className="border-none cursor-pointer  bg-transparent outline-none appearance-none"
               >
                 <option selected value="">
                   Any Make
@@ -74,7 +74,7 @@ const Hero = () => {
               <select
                 name="model"
                 onChange={(e) => setModel(e.target.value)}
-                className="border-none bg-transparent outline-none appearance-none"
+                className="border-none cursor-pointer  bg-transparent outline-none appearance-none"
               >
                 <option selected value="">
                   Any Model
@@ -92,7 +92,7 @@ const Hero = () => {
                 <select
                   name="price"
                   onChange={(e) => setPrice(e.target.value)}
-                  className="border-none bg-transparent outline-none appearance-none"
+                  className="border-none cursor-pointer  bg-transparent outline-none appearance-none"
                 >
                   <option selected value="">
                     All Price

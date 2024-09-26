@@ -59,15 +59,15 @@ const Details = () => {
     <div className="mt-5 px-8">
       {/* step 01 */}
       <form onSubmit={handledSubmit}>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-3 grid-cols-3 items-center gap-5">
           {" "}
           <div className="flex flex-col">
-            <label className="text-gray-700">Listing Title</label>
+            <label className="text-gray-700 text-[10px] md:text-[16px]">Listing Title</label>
             <select
               name="title"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
-              <option>Select One</option>
+              <option >Select One</option>
               <option value="Sporty Sedan">Sporty Sedan</option>
               <option value="Family SUV">Family SUV</option>
               <option value="Off-Road Truck">Off-Road Truck</option>
@@ -77,10 +77,10 @@ const Details = () => {
           </div>
           {/* category */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Category</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Category</label>
             <select
               name="category"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select category</option>
               <option value="cars">Cars</option>
@@ -90,10 +90,10 @@ const Details = () => {
           </div>
           {/* Label */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Label</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Label</label>
             <select
               name="label"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select a Label</option>
               <option value="Featured">Featured</option>
@@ -104,10 +104,10 @@ const Details = () => {
           </div>
           {/* Condition */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Condition</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Condition</label>
             <select
               name="condition"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Condition</option>
               <option value="New">New</option>
@@ -119,10 +119,10 @@ const Details = () => {
           </div>
           {/* type */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Type</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Type</label>
             <select
               name="type"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select type</option>
               <option value="Sedan">Sedan</option>
@@ -134,10 +134,10 @@ const Details = () => {
           </div>
           {/* make */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Make</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Make</label>
             <select
               name="make"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Make</option>
               <option value="Toyota">Toyota</option>
@@ -149,10 +149,10 @@ const Details = () => {
           </div>
           {/* model */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Model</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Model</label>
             <select
               name="model"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Model</option>
               <option value="Camry">Camry</option>
@@ -164,10 +164,10 @@ const Details = () => {
           </div>
           {/* Year */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Year</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Year</label>
             <select
               name="year"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select year</option>
               <option value="2024">2024</option>
@@ -179,10 +179,10 @@ const Details = () => {
           </div>
           {/* Offer Type: */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Offer Type</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Offer Type</label>
             <select
               name="offer"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Offer</option>
               <option value="For Sale">For Sale</option>
@@ -194,10 +194,10 @@ const Details = () => {
           </div>
           {/* Drive type */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Drive Type</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Drive Type</label>
             <select
               name="drive"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Drive type</option>
               <option value="Front-Wheel Drive (FWD)">
@@ -217,10 +217,10 @@ const Details = () => {
           </div>
           {/* Transmission: */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Transmission</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Transmission</label>
             <select
               name="transmission"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Transmission</option>
               <option value="Automatic">Automatic</option>
@@ -232,10 +232,10 @@ const Details = () => {
           </div>
           {/* Fuel Type: */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Fuel Type</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Fuel Type</label>
             <select
               name="fuel"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Fuel Type</option>
               <option value="Gasoline">Gasoline</option>
@@ -247,10 +247,10 @@ const Details = () => {
           </div>
           {/* Mileage: */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Mileage</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Mileage</label>
             <select
               name="mileage"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Mileage</option>
               <option value="10000">10000</option>
@@ -262,10 +262,10 @@ const Details = () => {
           </div>
           {/* Engine Size */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Engine Size</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Engine Size</label>
             <select
               name="engine"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Engine Size</option>
               <option value="1.5L">1.5L</option>
@@ -277,10 +277,10 @@ const Details = () => {
           </div>
           {/* Cylinder */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Cylinder</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Cylinder</label>
             <select
               name="cylinder"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Cylinder</option>
               <option value="4">4</option>
@@ -292,10 +292,10 @@ const Details = () => {
           </div>
           {/* color */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Color</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Color</label>
             <select
               name="color"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Color</option>
               <option value="Black">Black</option>
@@ -307,10 +307,10 @@ const Details = () => {
           </div>
           {/* door */}
           <div className="flex flex-col">
-            <label className="text-gray-700">Door</label>
+            <label className="text-gray-700 text-xs md:text-[16px]" >Door</label>
             <select
               name="door"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select Door</option>
               <option value="2">2</option>
@@ -322,10 +322,10 @@ const Details = () => {
           </div>
           {/* VIN */}
           <div className="flex flex-col">
-            <label className="text-gray-700">VIN</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">VIN</label>
             <select
               name="vin"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             >
               <option>Select VIN</option>
               <option value="1HGCM82633A123456">1HGCM82633A123456</option>
@@ -336,11 +336,11 @@ const Details = () => {
             </select>
           </div>
           <div className="flex flex-col col-span-3">
-            <label className="text-gray-700">Price</label>
+            <label className="text-gray-700 text-xs md:text-[16px]">Price</label>
             <input
               type="text"
               name="price"
-              className="mt-2 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              className="mt-2 p-2 md:p-3 lg:p-4 border text-xs md:text-[16px] rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter Car price"
               required
             />
@@ -349,14 +349,14 @@ const Details = () => {
           <textarea
             name="description"
             placeholder="Write a description"
-            className="mt-2 col-span-3 p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            className="mt-2 col-span-3 p-2 md:p-3 lg:p-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 text-xs md:text-[16px]"
           ></textarea>
         </div>
         {/* pass data in feature section */}
         {/* button */}
         <button
           type="submit"
-          className="bg-blue-600 px-8 py-2 rounded-lg font-semibold mt-4 text-white"
+          className="bg-blue-600 md:px-8 px-4 py-2 lg:py-3 text-xs md:text-[16px] rounded-lg font-semibold mt-4 text-white"
         >
           Next Feature
         </button>

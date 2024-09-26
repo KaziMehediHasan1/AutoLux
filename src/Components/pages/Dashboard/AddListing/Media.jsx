@@ -71,6 +71,7 @@ const Media = () => {
     const feature = JSON.parse(localStorage.getItem("car-feature"));
     const img = JSON.parse(localStorage.getItem("car-image"));
     const owner = JSON.parse(localStorage.getItem("car-owner"));
+
     const data = {
       ...details,
       carFeature: feature,
@@ -107,7 +108,7 @@ const Media = () => {
       className="px-9 py-5 text-2xl text-gray-600 font-primary"
     >
       <h1>Gallery</h1>
-      <div className="grid grid-cols-2 lg:grid-cols-4 mt-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-0 mt-3">
         {files.map((file) => (
           <span key={file.preview}>
             <img
@@ -115,12 +116,12 @@ const Media = () => {
               onLoad={() => {
                 URL.revokeObjectURL(file.preview);
               }}
-              className="w-72 h-44 rounded-lg border border-gray-300 shadow-lg "
+              className="md:w-72 md:h-44 w-44 h-20 rounded-lg border border-gray-300 shadow-lg "
             ></img>
             {/* button */}
             <button
               type="button"
-              className="mt-3 text-[12px]  uppercase tracking-wider font-bold text-neutral-500 border border-secondary-400 rounded-md px-3 hover:bg-secondary-400 hover:text-white transition-colors"
+              className="mt-3 md:text-[12px] text-[8px] uppercase tracking-wider font-bold text-neutral-500 border border-secondary-400 rounded-md md:px-3 px-2 hover:bg-secondary-400 hover:text-white transition-colors"
               onClick={() => removeFile(file.name)}
             >
               remove
@@ -160,11 +161,11 @@ const Media = () => {
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
               {isDragActive && <p className="text-2xl">Drop the image</p>}
 
-              <span className={`${!isDragActive ? "font-semibold" : "hidden"}`}>
+              <span className={`${!isDragActive ? "md:font-semibold" : "hidden"}`}>
                 Click to upload or drag and drop
               </span>
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center md:text-start">
               SVG, PNG, JPG or GIF (MAX. 800x400px)
             </p>
           </div>
@@ -189,13 +190,13 @@ const Media = () => {
       {/* submit data */}
       <div className="flex justify-center space-x-6">
         {!addImg ? (
-          <button className="bg-blue-600 px-6 text-white rounded-lg py-1 btn">
+          <button className="bg-blue-600 px-4 text-white rounded-lg md:px-8 py-2 text-xs md:text-[16px] btn">
             Add Images
           </button>
         ) : (
           <button
             onClick={handlePost}
-            className={`bg-green-500 px-6 text-white rounded-lg py-1 btn w-full`}
+            className={`bg-green-500 px-6 text-white rounded-lg py-1 md:px-8 text-xs md:text-[16px] btn w-full`}
           >
             Add Listing
           </button>

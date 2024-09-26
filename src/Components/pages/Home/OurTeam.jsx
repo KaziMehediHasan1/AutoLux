@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 const OurTeam = () => {
   return (
     <div className="max-w-[1320px] mx-auto mt-20 font-primary ">
@@ -24,7 +25,10 @@ const OurTeam = () => {
 
         <div class="container px-6 py-10 mx-auto -mt-72 sm:-mt-80 md:-mt-96">
           <div class="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-3">
-            <div class="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              class="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700"
+            >
               <img
                 class="object-cover w-full rounded-xl aspect-square"
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
@@ -85,9 +89,9 @@ const OurTeam = () => {
                   </svg>
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div class="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700">
+            <motion.div whileHover={{ scale: 1.1 }} class="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700">
               <img
                 class="object-cover w-full rounded-xl aspect-square"
                 src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
@@ -148,9 +152,9 @@ const OurTeam = () => {
                   </svg>
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div class="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700">
+            <motion.div whileHover={{ scale: 1.1 }} class="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700">
               <img
                 class="object-cover w-full rounded-xl aspect-square"
                 src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
@@ -211,7 +215,7 @@ const OurTeam = () => {
                   </svg>
                 </a>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

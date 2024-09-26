@@ -328,7 +328,9 @@ const NavBar = () => {
               title="it's not open in mobile device"
               placement="right-end"
             >
-              <NavLink className="block hover:text-blue-600">Dashboard</NavLink>
+              <NavLink to="/dashboard" onClick={() => setIsMenuOpen(!isMenuOpen)} className="block hover:text-blue-600">
+                Dashboard
+              </NavLink>
             </Tooltip>
             <NavLink
               onClick={() => setIsMenuOpen(!isMenuOpen)}

@@ -233,7 +233,7 @@ const Feature = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 px-4 py-2 rounded-lg font-semibold text-white"
+          className="bg-blue-600 md:px-8 px-4 py-2 lg:py-3 text-xs md:text-[16px] mt-2 lg:mt-0 rounded-lg font-semibold text-white"
         >
           Next Media
         </button>

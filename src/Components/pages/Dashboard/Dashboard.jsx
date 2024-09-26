@@ -49,17 +49,17 @@ const Dashboard = () => {
       <section className="flex">
         {/* sidebar */}
         <div
-          className={`bg-blue-900 h-screen p-5 pt-8 ${
-            !onSidebar ? "w-72" : "w-20"
+          className={`bg-blue-900 lg:h-[1130px] md:h-[970px] p-5 pt-8 ${
+            !onSidebar ? " md:w-72" : "w-20"
           } relative duration-300 rounded-tr-md`}
         >
           <FaArrowCircleLeft
             onClick={() => setOnSidebar(!onSidebar)}
-            className={`text-2xl text-white absolute bg-[050b20] rounded-full -right-2 top-5 border border-[#190530] cursor-pointer ${
+            className={`text-2xl text-white hidden lg:block absolute bg-[050b20] rounded-full -right-2 top-5 border border-[#190530] cursor-pointer ${
               onSidebar && "rotate-180"
             }`}
           />
-          <div className={`inline-flex space-x-4 ${!onSidebar && 'pl-3'}`}>
+          <div className={`inline-flex space-x-4 ${!onSidebar && "pl-3"}`}>
             <FaCarSide
               className={`bg-amber-100 text-3xl p-1 rounded-xl ${
                 onSidebar && "animate-pulse rotate-[360deg] duration-500"
@@ -90,7 +90,7 @@ const Dashboard = () => {
               }
             >
               <MdSpaceDashboard
-                className={`text-3xl ${!onSidebar && "ml-2"} text-yellow-100`}
+                className={`text-3xl ${!onSidebar && "ml-2"} text-yellow-100 `}
               />
               {!onSidebar && <p>Dashboard</p>}
             </NavLink>
@@ -193,9 +193,8 @@ const Dashboard = () => {
             </NavLink>
           </div>
         </div>
-
         {/* Content */}
-        <div className={`ml-6 mt-5 ${onSidebar && "lg:ml-36"}`}>
+        <div className={`ml-1 md:ml-16 md:mt-5 lg:mb-5 ${onSidebar ? "lg:ml-36 md:ml-5" : "md:ml-1 lg:ml-5"}`}>
           <Outlet></Outlet>
         </div>
       </section>
