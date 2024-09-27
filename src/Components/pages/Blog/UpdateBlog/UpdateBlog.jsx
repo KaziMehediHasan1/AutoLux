@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 const image_hosting_key = import.meta.env.VITE_MEDIA_IMGBB_APIKEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const UpdateBlog = () => {
+  const [DataIsUpdate, setDataIsUpdate] = useState();
   // user name, email, photo, blog => title, image, car/bikes description, comment section, view counting, etc..
   const { id } = useParams();
   const { loading, currentUser } = useContext(AuthContext);
@@ -24,7 +25,6 @@ const UpdateBlog = () => {
   const axiosPublic = UseAxiosPublic();
   const axiosSecure = UseAxiosSecure();
   // dropzone section ..
-  const [AllData, setAllData] = useState();
   const [img, setImg] = useState();
   const [Data, setData] = useState();
   const [addImg, setAddImg] = useState();
@@ -85,13 +85,9 @@ const UpdateBlog = () => {
     // Wait for all uploads to finish
     await Promise.all(promises);
     toast.success("updating data add, please check and update!");
-    // console.log("All images uploaded:", uploadedImages);
   };
-  // post db ..
   useEffect(() => {
     const allData = JSON.parse(localStorage.getItem("update-blog"));
-    // console.log(allData, "89 no line");
-    setAllData(allData);
     const images = JSON.parse(localStorage.getItem("update-img"));
     const filterURL = images?.map((item) => item.data?.display_url);
     setImg(filterURL);
@@ -100,35 +96,36 @@ const UpdateBlog = () => {
       images: filterURL,
     };
     setData(blogData);
-    // console.log("Updating blog with data:", Data);
   }, []);
-  // console.log(Data, "98 line post db");
   const handlePost = async () => {
     await axiosSecure
       .put(`/blogs/${id}`, Data)
       .then((res) => {
-        console.log(res.data); // Check response data
-        if (res?.data.modifiedCount > 0) {
-          toast.success("Blog successfully updated");
-          localStorage.removeItem("update-img");
-          localStorage.removeItem("update-blog");
-          // navigate("/dashboard/all-blogs");
+        if (res?.data?.success) {
+          toast.success(res?.data?.message); // Success message
+          console.log(res?.data?.message);
+          setDataIsUpdate(res?.data?.message);
+          //  redirect to another page
+          navigate("/dashboard/all-blogs");
         } else {
-          toast.error("Blog was not updated");
+          toast.error(res.data.message); // Not found message
         }
       })
       .catch((err) => {
-        toast.error("Not update data..");
-        console.log({ message: err.message });
+        toast.error("Failed to update the blog."); // General error message
+        console.error(err.message);
       });
   };
-
+  if (DataIsUpdate) {
+    localStorage.removeItem("update-img");
+    localStorage.removeItem("update-blog");
+  }
   // loading spin
   if (loading) {
     <p>loading..</p>;
   }
   return (
-    <div className="font-primary w-[1500px] mx-auto mt-20 mb-10">
+    <div className="font-primary lg:w-[1500px] md:w-[650px] w-[320px] mx-auto mt-20 mb-10">
       <Helmet>
         <title>AutoLux | Updated Blog Page</title>
       </Helmet>
@@ -170,7 +167,7 @@ const UpdateBlog = () => {
           >
             <label
               for="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              className="flex flex-col items-center justify-center lg:w-full md:w-96 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
@@ -248,59 +245,25 @@ const UpdateBlog = () => {
           </div>
           {/* submit data */}
           <div className="flex justify-center space-x-6">
-            <button
-              type="submit"
-              className="bg-blue-600 px-6 text-white rounded-lg py-1 btn"
-            >
-              Update Blog info
-            </button>
-            <div>
+            {addImg ? (
+              <div>
+                <p>Now your ready to update data! click update now button.</p>
+                <button
+                  type="submit"
+                  onClick={handlePost}
+                  className="bg-green-600 px-6 text-white rounded-lg py-1 btn w-full"
+                >
+                  Update Now
+                </button>
+              </div>
+            ) : (
               <button
-                className="bg-blue-600 px-7 text-white rounded-lg py-1 btn"
-                onClick={() =>
-                  document.getElementById("my_modal_4").showModal()
-                }
+                type="submit"
+                className="bg-blue-600 px-6 text-white rounded-lg py-1 btn w-full"
               >
-                Show Blog
+                Add Update Blog info
               </button>
-              {/* You can open the modal using document.getElementById('ID').showModal() method */}
-              <dialog id="my_modal_4" className="modal">
-                <div className="modal-box w-11/12 max-w-full h-full">
-                  <div>
-                    <h3 className="font-bold text-2xl">Submit your blog</h3>
-
-                    <div className="grid grid-cols-2">
-                      <div>
-                        <div className="py-3">
-                          <label className="flex space-x-2">
-                            <span>Title:</span> <p>{AllData?.title}</p>
-                          </label>
-                          <label className="flex space-x-2">
-                            <span>Description:</span>{" "}
-                            <p>{AllData?.description}</p>
-                          </label>
-                          <label className="flex space-x-2">
-                            <span>images:</span>{" "}
-                            {img?.map((item, index) => (
-                              <img src={item} className="w-44 h-64 rounded" />
-                            ))}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="modal-action">
-                    <form method="dialog" className="flex space-x-3">
-                      {/* if there is a button, it will close the modal */}
-                      <button className="btn">Close</button>
-                      <button onClick={handlePost} className="btn btn-primary">
-                        Update
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </dialog>
-            </div>
+            )}
           </div>
         </div>
       </form>

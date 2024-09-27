@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import UseAxiosPublic from "../../../Hooks/useAxiosPublic/UseAxiosPublic";
 import UseAxiosSecure from "../../../Hooks/useAxiosSecure/UseAxiosSecure";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const image_hosting_key = import.meta.env.VITE_MEDIA_IMGBB_APIKEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddBlog = () => {
@@ -22,10 +23,12 @@ const AddBlog = () => {
   const axiosSecure = UseAxiosSecure();
   // dropzone section ..
   const [AllData, setAllData] = useState();
-  const [img, setImg] = useState();
   const [Data, setData] = useState();
-  const [addImg, setAddImg] = useState();
+  const [success, setSuccess] = useState(false);
+  const [addImg, setAddImg] = useState(false);
+  const [loadingBtn, setLoadingBtn] = useState(false);
   const [files, setFiles] = useState([]);
+  const navigate = useNavigate();
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles?.length) {
       setFiles((previousFiles) => [
@@ -44,6 +47,8 @@ const AddBlog = () => {
 
   // get files and uploaded to the imgBB
   const handleSubmit = async (e) => {
+    console.log("handleSubmit");
+    // setAddImg(true);
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
@@ -53,12 +58,11 @@ const AddBlog = () => {
       description: description,
       authorData: authorData,
     };
-    // console.log(data, "56 no line ");
     let img = [];
     const promises = files.map(async (file) => {
       const formData = new FormData();
       formData.append("image", file);
-      // console.log(formData, "form data line 60");
+
       try {
         const res = await axiosPublic.post(image_hosting_api, formData, {
           headers: {
@@ -66,12 +70,10 @@ const AddBlog = () => {
           },
         });
         if (res?.data?.success) {
-          // const imgURL = res?.data;
           img.push(res?.data);
           localStorage.setItem("blog-img", JSON.stringify(img));
           localStorage.setItem("blog-data", JSON.stringify(data));
-          setAddImg(res?.data?.success);
-          // show modal..
+          setAddImg(true);
         }
         return res.data;
       } catch (error) {
@@ -81,54 +83,51 @@ const AddBlog = () => {
 
     // Wait for all uploads to finish
     await Promise.all(promises);
-    console.log(img, "88");
     toast.success("blog data add, please check and post!");
-    // console.log("All images uploaded:", uploadedImages);
-  };
-  // post db ..
-  useEffect(() => {
-    const allData = JSON.parse(localStorage.getItem("blog-data"));
-    // console.log(allData, "89 no line");
-    setTimeout(() => {
-      setAllData(allData);
-    }, 0);
-    const images = JSON.parse(localStorage.getItem("blog-img"));
-    const filterURL = images?.map((item) => item.data?.display_url);
-    setTimeout(() => {
-      setImg(filterURL);
-    }, 0);
-    const blogData = {
-      ...allData,
-      images: filterURL,
-    };
-    setData(blogData);
-  }, []);
-  // console.log(Data, "98 line post db");
-  const handlePost = async () => {
-    await axiosSecure
-      .post("/blogs", Data)
-      .then((res) => {
-        if (res?.data) {
-          toast.success("Blog successfully created");
-          localStorage.removeItem("blog-data");
-          localStorage.removeItem("blog-img");
-        }
-      })
-      .catch((err) => {
-        toast.error("Not Available data..");
-        console.log({ message: err.message });
-      });
   };
 
-  // loading spin
+  useEffect(() => {
+    const allData = JSON.parse(localStorage.getItem("blog-data"));
+    const images = JSON.parse(localStorage.getItem("blog-img"));
+    // console.log(allData, images, "91");
+    if (allData && images) {
+      const filterURL = images?.map((item) => item.data?.display_url);
+      const blogData = {
+        ...allData,
+        images: filterURL,
+      };
+      setData(blogData);
+    }
+  }, [addImg]);
+  console.log(Data);
+
+  const handlePost = async () => {
+    console.log("handlePost");
+    try {
+      const res = await axiosSecure.post("/blogs", Data);
+      if (res?.data) {
+        toast.success("Blog successfully created");
+        navigate("/dashboard/all-blogs");
+      } else {
+        toast.error("Failed to create the blog.");
+      }
+    } catch (error) {
+      toast.error("Error creating blog.");
+      console.log("Error:", error.message);
+    }
+  };
+
+  // loading spinner
   if (loading) {
     <p>loading..</p>;
   }
   return (
-    <div className="font-primary w-[1500px] mx-auto">
+    <div className="font-primary lg:w-[1500px] md:w-[650px] w-[320px] mx-auto">
       <section>
-        <h1 className="text-4xl font-semibold">Add Blogs</h1>
-        <p>Add your blogs and selling fast!</p>
+        <h1 className="md:text-4xl text-2xl font-semibold">Add Blogs</h1>
+        <p className="text-gray-600 text-sm md:text-xl">
+          Add your blogs and selling fast!
+        </p>
       </section>
       <form
         onSubmit={handleSubmit}
@@ -242,59 +241,26 @@ const AddBlog = () => {
           </div>
           {/* submit data */}
           <div className="flex justify-center space-x-6">
-            <button
-              type="submit"
-              className="bg-blue-600 px-6 text-white rounded-lg py-1 btn"
-            >
-              Add Blog info
-            </button>
-            <div>
+            {addImg ? (
               <button
-                className="bg-blue-600 px-7 text-white rounded-lg py-1 btn"
-                onClick={() =>
-                  document.getElementById("my_modal_4").showModal()
-                }
+                onClick={handlePost}
+                className="bg-green-600 px-6 text-white rounded-lg py-1 btn"
               >
-                Show Blog
+                Post
               </button>
-              {/* You can open the modal using document.getElementById('ID').showModal() method */}
-              <dialog id="my_modal_4" className="modal">
-                <div className="modal-box w-11/12 max-w-full h-full">
-                  <div>
-                    <h3 className="font-bold text-2xl">Submit your blog</h3>
-
-                    <div className="grid grid-cols-2">
-                      <div>
-                        <div className="py-3">
-                          <label className="flex space-x-2">
-                            <span>Title:</span> <p>{AllData?.title}</p>
-                          </label>
-                          <label className="flex space-x-2">
-                            <span>Description:</span>{" "}
-                            <p>{AllData?.description}</p>
-                          </label>
-                          <label className="flex space-x-2">
-                            <span>images:</span>{" "}
-                            {img?.map((item, index) => (
-                              <img src={item} className="w-44 h-64 rounded" />
-                            ))}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="modal-action">
-                    <form method="dialog" className="flex space-x-3">
-                      {/* if there is a button, it will close the modal */}
-                      <button className="btn">Close</button>
-                      <button onClick={handlePost} className="btn btn-primary">
-                        Post
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </dialog>
-            </div>
+            ) : (
+              <button
+                type="submit"
+                className="bg-blue-600 px-6 text-white rounded-lg py-1 btn"
+                disabled={loadingBtn} // Disable button while loading
+              >
+                {loadingBtn ? (
+                  <ClipLoader color="#fff" size={20} /> // Display spinner when loading
+                ) : (
+                  "Add Blog info" // Display text when not loading
+                )}
+              </button>
+            )}
           </div>
         </div>
       </form>

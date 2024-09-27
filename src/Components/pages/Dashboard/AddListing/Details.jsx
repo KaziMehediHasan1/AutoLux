@@ -48,11 +48,11 @@ const Details = () => {
       price,
       description,
     };
+    localStorage.setItem("car-detail", JSON.stringify(listing));
     if (listing) {
       navigate("/dashboard/add-listing/feature");
       toast.success("car details successfully Field-Up");
     }
-    localStorage.setItem("car-detail", JSON.stringify(listing));
   };
   // console.log(detail, "73 no line checking");
   return (

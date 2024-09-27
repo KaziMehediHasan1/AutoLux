@@ -21,6 +21,7 @@ import { CiBookmark, CiPen } from "react-icons/ci";
 import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
 import { RiBookOpenLine } from "react-icons/ri";
 import { IoCarSportOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 const Dashboard = () => {
   const { logOutUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const Dashboard = () => {
         {/* sidebar */}
         <div
           className={`bg-blue-900 lg:h-[1130px] md:h-[970px] p-5 pt-8 ${
-            !onSidebar ? " md:w-72" : "w-20"
+            !onSidebar ? " md:w-72 " : "w-20"
           } relative duration-300 rounded-tr-md`}
         >
           <FaArrowCircleLeft
@@ -194,7 +195,11 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Content */}
-        <div className={`ml-1 md:ml-16 md:mt-5 lg:mb-5 ${onSidebar ? "lg:ml-36 md:ml-5" : "md:ml-1 lg:ml-5"}`}>
+        <div
+          className={`ml-1 md:ml-16 md:mt-5 lg:mb-5 ${
+            onSidebar ? "lg:ml-36 md:ml-5" : "md:ml-1 lg:ml-5"
+          }`}
+        >
           <Outlet></Outlet>
         </div>
       </section>

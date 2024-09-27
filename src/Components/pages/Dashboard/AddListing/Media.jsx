@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useEffect } from "react";
-import { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import UseAxiosSecure from "../../../Hooks/useAxiosSecure/UseAxiosSecure";
@@ -7,19 +6,23 @@ import UseAxiosPublic from "../../../Hooks/useAxiosPublic/UseAxiosPublic";
 import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import useGetListing from "../../../Hooks/useGetListingData/useGetListing";
+
 const image_hosting_key = import.meta.env.VITE_MEDIA_IMGBB_APIKEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 const Media = () => {
   const [, , refetch] = useGetListing();
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const user = currentUser?.email;
-  // console.log(currentUser?.email);
+  const [DataIsCreate, setDataIsCreate] = useState(false);
   const [Data, setData] = useState();
-  const [addImg, setAddImg] = useState();
+  const [addImg, setAddImg] = useState(false);
   const axiosSecure = UseAxiosSecure();
   const axiosPublic = UseAxiosPublic();
   const [files, setFiles] = useState([]);
+
+  // Handle file drop
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles?.length) {
       setFiles((previousFiles) => [
@@ -30,12 +33,15 @@ const Media = () => {
       ]);
     }
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  // remove files
+
+  // Remove a file
   const removeFile = (name) => {
     setFiles((files) => files.filter((file) => file.name !== name));
   };
-  // get files and uploaded to the imgBB
+
+  // Handle image upload
   const handleSubmit = async (e) => {
     e.preventDefault();
     const promises = files.map(async (file) => {
@@ -47,14 +53,31 @@ const Media = () => {
             "Content-Type": "multipart/form-data",
           },
         });
+
         if (res?.data?.success) {
           const imgURL = res?.data?.data?.display_url;
-          // console.log(imgURL);
           localStorage.setItem("car-image", JSON.stringify(imgURL));
           localStorage.setItem("car-owner", JSON.stringify(user));
           setAddImg(res?.data?.success);
-          // show modal..
         }
+
+        // Retrieve car details and feature data from localStorage
+        const details = JSON.parse(localStorage.getItem("car-detail"));
+        const feature = JSON.parse(localStorage.getItem("car-feature"));
+        const img = JSON.parse(localStorage.getItem("car-image"));
+        const owner = JSON.parse(localStorage.getItem("car-owner"));
+
+        // Check if the data is correctly set
+        console.log({ details, feature, img, owner });
+
+        // Combine all data for the car listing
+        const data = {
+          ...details,
+          carFeature: feature,
+          carImage: img,
+          user: owner,
+        };
+        setData(data);
         return res.data;
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -62,46 +85,36 @@ const Media = () => {
     });
 
     // Wait for all uploads to finish
-    const uploadedImages = await Promise.all(promises);
-    console.log("All images uploaded:", uploadedImages);
+    await Promise.all(promises);
   };
-  // get car details from localStorage..
-  useEffect(() => {
-    const details = JSON.parse(localStorage.getItem("car-detail"));
-    const feature = JSON.parse(localStorage.getItem("car-feature"));
-    const img = JSON.parse(localStorage.getItem("car-image"));
-    const owner = JSON.parse(localStorage.getItem("car-owner"));
 
-    const data = {
-      ...details,
-      carFeature: feature,
-      carImage: img,
-      user: owner,
-    };
-    setData(data);
-  }, []);
-
+  // Post data to server and clear localStorage
   const handlePost = async () => {
-    await axiosSecure
-      .post("/listingDetail", Data)
-      .then((res) => {
-        localStorage?.removeItem("car-detail");
-        localStorage?.removeItem("car-feature");
-        localStorage?.removeItem("car-image");
-        localStorage?.removeItem("car-owner");
-        if (res?.data) {
-          toast.success("Post Your Car Data..");
+    try {
+      const res = await axiosSecure.post("/listingDetail", Data);
+
+      if (res?.data) {
+        // Remove items after successful post
+        localStorage.removeItem("car-detail");
+        localStorage.removeItem("car-feature");
+        localStorage.removeItem("car-image");
+        localStorage.removeItem("car-owner");
+
+        toast.success("Post Your Car Data..");
+
+        // Delay navigation to ensure removal happens first
+        setTimeout(() => {
           navigate("/dashboard/my-listing");
-        }
-        console.log(res.data);
-      })
-      .catch((err) => {
-        toast.error("Not Available data..");
-        console.log({ message: err.message });
-      });
+        }, 1000);
+
+        setDataIsCreate(res?.data);
+      }
+    } catch (err) {
+      toast.error("Data not available..");
+      console.log({ message: err.message });
+    }
   };
 
-  console.log(Data, "no 107 ");
   return (
     <form
       onSubmit={handleSubmit}
@@ -113,12 +126,9 @@ const Media = () => {
           <span key={file.preview}>
             <img
               src={file.preview}
-              onLoad={() => {
-                URL.revokeObjectURL(file.preview);
-              }}
+              onLoad={() => URL.revokeObjectURL(file.preview)}
               className="md:w-72 md:h-44 w-44 h-20 rounded-lg border border-gray-300 shadow-lg "
-            ></img>
-            {/* button */}
+            />
             <button
               type="button"
               className="mt-3 md:text-[12px] text-[8px] uppercase tracking-wider font-bold text-neutral-500 border border-secondary-400 rounded-md md:px-3 px-2 hover:bg-secondary-400 hover:text-white transition-colors"
@@ -129,14 +139,11 @@ const Media = () => {
           </span>
         ))}
       </div>
-      {/* drag and drop */}
-      <div
-        {...getRootProps()}
-        className="flex items-center justify-center my-10 w-full"
-      >
+
+      <div {...getRootProps()} className="flex items-center justify-center my-10 w-full">
         <label
-          for="dropzone-file"
-          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          htmlFor="dropzone-file"
+          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
             <svg
@@ -152,15 +159,14 @@ const Media = () => {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
               />
             </svg>
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              {isDragActive && <p className="text-2xl">Drop the image</p>}
-
+              {isDragActive && <span className="text-2xl">Drop the image</span>}
               <span className={`${!isDragActive ? "md:font-semibold" : "hidden"}`}>
                 Click to upload or drag and drop
               </span>
@@ -169,25 +175,15 @@ const Media = () => {
               SVG, PNG, JPG or GIF (MAX. 800x400px)
             </p>
           </div>
-          <input
-            {...getInputProps()}
-            id="dropzone-file"
-            type="file"
-            className="hidden"
-          />
+          <input {...getInputProps()} id="dropzone-file" type="file" className="hidden" />
         </label>
       </div>
-      <p
-        className={`${
-          addImg
-            ? "text-center font-semibold text-red-950 mb-5"
-            : "hidden text-center mb-5"
-        }`}
-      >
+
+      <p className={`${addImg ? "text-center font-semibold text-red-950 mb-5" : "hidden"}`}>
         Now Add your car! 😊
       </p>
 
-      {/* submit data */}
+      {/* Submit Data */}
       <div className="flex justify-center space-x-6">
         {!addImg ? (
           <button className="bg-blue-600 px-4 text-white rounded-lg md:px-8 py-2 text-xs md:text-[16px] btn">
@@ -196,7 +192,7 @@ const Media = () => {
         ) : (
           <button
             onClick={handlePost}
-            className={`bg-green-500 px-6 text-white rounded-lg py-1 md:px-8 text-xs md:text-[16px] btn w-full`}
+            className="bg-green-500 px-6 text-white rounded-lg py-1 md:px-8 text-xs md:text-[16px] btn w-full"
           >
             Add Listing
           </button>
