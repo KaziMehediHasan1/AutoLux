@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import useGetBlogs from "../../Hooks/useGetBlogs/useGetBlogs";
 const Blog = () => {
-  const [AllBlog, isLoading, refetch] = useGetBlogs();
+  const [AllBlog, isLoading] = useGetBlogs();
   // console.log(AllBlog);
   if (isLoading) {
     return <p>loading..</p>;

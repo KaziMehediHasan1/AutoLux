@@ -13,6 +13,8 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { LuMessagesSquare } from "react-icons/lu";
 import {
   faCarOn,
+  faCartPlus,
+  faCartShopping,
   faRightFromBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
@@ -146,6 +148,35 @@ const Dashboard = () => {
               <CiPen className={`text-3xl ${!onSidebar && "ml-2"}`} />
               {!onSidebar && <p>Add Blogs</p>}
             </NavLink>
+
+            <NavLink
+              to="all-product"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer bg-blue-500"
+                  : "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer"
+              }
+            >
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                className={`text-2xl ${!onSidebar && "ml-2"}`}
+              />
+              {!onSidebar && <p>All Products</p>}
+            </NavLink>
+            <NavLink
+              to="add-product"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer bg-blue-500"
+                  : "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer"
+              }
+            >
+              <FontAwesomeIcon
+                icon={faCartPlus}
+                className={`text-2xl ${!onSidebar && "ml-2"}`}
+              />
+              {!onSidebar && <p>Add Products</p>}
+            </NavLink>
             <NavLink
               to="my-favorites"
               className={({ isActive }) =>
@@ -171,20 +202,7 @@ const Dashboard = () => {
               />
               {!onSidebar && <p>Message</p>}
             </NavLink>
-            <NavLink
-              to="profile"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer bg-blue-500"
-                  : "flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer"
-              }
-            >
-              <FontAwesomeIcon
-                icon={faUser}
-                className={`text-3xl ${!onSidebar && "ml-2"}`}
-              />
-              {!onSidebar && <Link to="profile">My Profile</Link>}
-            </NavLink>
+
             <NavLink className="flex items-center hover:bg-gray-700 rounded-lg py-2 space-x-2 cursor-pointer">
               <FontAwesomeIcon
                 icon={faRightFromBracket}

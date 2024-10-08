@@ -117,7 +117,7 @@ const NavBar = () => {
             </NavLink>
             <RiArrowDropDownLine
               className={`${
-                isHomeDropdownVisible ? "rotate-180 duration-300" : ""
+                isHomeDropdownVisible && "rotate-180 duration-300"
               }`}
             />
           </div>
@@ -137,6 +137,14 @@ const NavBar = () => {
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
                   About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className=" block lg:hidden px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  to="/contact"
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -216,14 +224,6 @@ const NavBar = () => {
                   Shop
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/accessories"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                >
-                  Accessories
-                </Link>
-              </li>
             </ul>
           )}
         </div>
@@ -231,7 +231,7 @@ const NavBar = () => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "hover:text-blue-600 border-b-2 border-blue-600"
+              ? "hover:text-blue-600 border-b-2 border-blue-600 md:hidden lg:block"
               : "hover:text-blue-600"
           }
           to="/contact"
@@ -328,7 +328,11 @@ const NavBar = () => {
               title="it's not open in mobile device"
               placement="right-end"
             >
-              <NavLink to="/dashboard" onClick={() => setIsMenuOpen(!isMenuOpen)} className="block hover:text-blue-600">
+              <NavLink
+                to="/dashboard"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="block hover:text-blue-600"
+              >
                 Dashboard
               </NavLink>
             </Tooltip>
@@ -389,22 +393,13 @@ const NavBar = () => {
                       Shop
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      onClick={() => setIsMenuOpen(!isMenuOpen)}
-                      to="/accessories"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Accessories
-                    </Link>
-                  </li>
                 </ul>
               )}
             </div>
             <NavLink
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               to="/contact"
-              className="block hover:text-blue-600"
+              className=" hover:text-blue-600 md:hidden lg:block"
             >
               Contact
             </NavLink>

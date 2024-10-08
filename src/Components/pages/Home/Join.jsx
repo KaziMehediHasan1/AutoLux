@@ -1,19 +1,29 @@
+import { toast } from "react-toastify";
+
 const Join = () => {
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const mail = form.mail.value;
+    if (mail) {
+      toast.success("Your joining successful!");
+    }
+  };
   return (
     <div className="max-w-[500px] mx-auto mt-16 mb-8">
       <h1 className="text-center font-primary font-bold text-4xl">
-        Join BoxCar
+        Join AutoLux
       </h1>
       <p className="font-primary font-medium text-center text-gray-500 mt-2">
         Receive pricing updates, shopping tips & more!
       </p>
       {/* button */}
 
-      <form className="mt-5 px-8 md:px-0">
-        <div class="relative ">
+      <form onSubmit={handleSubmit} className="mt-5 px-8 md:px-0">
+        <div class="relative">
           <input
-            type="text"
+            type="email"
+            name="mail"
             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="subscribe"
             required

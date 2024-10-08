@@ -1,12 +1,134 @@
-import React from "react";
+import {
+  faBookOpenReader,
+  faStore,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-
+import useProduct from "../../../Hooks/useProduct/useProduct";
+import useGetUser from "../../../Hooks/useGetUser/useGetUser";
+import useGetBlogs from "../../../Hooks/useGetBlogs/useGetBlogs";
+import { useSpring, animated } from "@react-spring/web";
+import { Chart } from "react-google-charts";
 const StaticDashboard = () => {
+  const [allProduct, isLoading, refetch] = useProduct();
+  const [AllUser] = useGetUser();
+  const [AllBlog] = useGetBlogs();
+  const Number = ({ n }) => {
+    const { number } = useSpring({
+      from: { number: 0 },
+      number: n,
+      delay: 100,
+      config: { mass: 1, tension: 10, friction: 10 },
+    });
+    return <animated.div>{number.to((n) => n.toFixed(0))}</animated.div>;
+  };
+
+  const ColumnChartOne = ({ chartTitle }) => {
+    const data = [
+      ["Title", "Views", { role: "tooltip", type: "string" }],
+      ...AllBlog?.slice(0, 6)?.map((item) => [
+        item?.title,
+        item?.viewCount,
+        "Author: " + item.authorData?.authorName,
+      ]),
+    ];
+
+    const options = {
+      title: chartTitle,
+      titleTextStyle: {
+        color: "#4A5568",
+        fontSize: 26,
+        bold: true,
+        
+      },
+      chartArea: { width: "75%" },
+      hAxis: {
+        title: "Views",
+        minValue: 0,
+      },
+      tooltip: { isHtml: true },
+    };
+
+    return (
+      <Chart
+        chartType="ColumnChart"
+        width="100%"
+        height="500px"
+        data={data}
+        options={options}
+      />
+    );
+  };
+
+  if (isLoading) {
+    return <p>loading..</p>;
+  }
   return (
     <div>
       <Helmet>
         <title>AutoLux | Dashboard</title>
       </Helmet>
+      <div className="font-primary lg:w-[1500px] md:w-[650px] w-[320px] mx-auto border rounded-lg p-4">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
+          {/* card */}
+          <div className=" bg-gradient-to-tr from-blue-400 to-slate-300 rounded-lg h-52">
+            <div className="flex items-center space-x-2">
+              <FontAwesomeIcon
+                icon={faUser}
+                className="text-white w-10 h-10 bg-blue-500 rounded-br-lg rounded-tl-lg p-3"
+              />
+              <p className=" font-semibold text-3xl">Users</p>
+            </div>
+            <div>
+              <h1 className="text-center mt-2 font-extrabold text-6xl font-mono">
+                <Number n={AllUser.length} />
+              </h1>
+              <p className="text-center text-xl text-white">
+                Total User active in AutoLux.
+              </p>
+            </div>
+          </div>
+          <div className=" bg-gradient-to-tr from-blue-400 to-slate-300 rounded-lg h-52">
+            <div className="flex items-center space-x-2">
+              <FontAwesomeIcon
+                icon={faBookOpenReader}
+                className="text-white w-10 h-10 bg-blue-500 rounded-br-lg rounded-tl-lg p-3"
+              />
+              <p className=" font-semibold text-3xl">Blogs</p>
+            </div>
+            <div>
+              <h1 className="text-center mt-2 font-extrabold text-6xl font-mono">
+                <Number n={AllBlog?.length} />
+              </h1>
+              <p className="text-center text-xl text-white">
+                Total Blogs in AutoLux.
+              </p>
+            </div>
+          </div>
+          <div className=" bg-gradient-to-tr from-blue-400 to-slate-300 rounded-lg h-52">
+            <div className="flex items-center space-x-2">
+              <FontAwesomeIcon
+                icon={faStore}
+                className="text-white w-10 h-10 bg-blue-500 rounded-br-lg rounded-tl-lg p-3"
+              />
+              <p className=" font-semibold text-3xl">Products</p>
+            </div>
+            <div>
+              <h1 className="text-center mt-2 font-extrabold text-6xl font-mono">
+                <Number n={allProduct?.length} />
+              </h1>
+              <p className="text-center text-xl text-white">
+                Total Product in AutoLux.
+              </p>
+            </div>
+          </div>
+          <div className="mt-5 lg:col-span-full  lg:flex">
+            <ColumnChartOne chartTitle="AutoLux most viewing blogs" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

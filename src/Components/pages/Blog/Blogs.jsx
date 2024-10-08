@@ -1,17 +1,21 @@
 import { Helmet } from "react-helmet-async";
-import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import UseAxiosSecure from "../../Hooks/useAxiosSecure/UseAxiosSecure";
+import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
+import { toast } from "react-toastify";
 const Blogs = () => {
   const axiosSecure = UseAxiosSecure();
+  const { loading, currentUser } = useContext(AuthContext);
   const [data, setData] = useState();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPages, setCurrentPages] = useState(1);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
-    fetchData(currentPages,search);
+    fetchData(currentPages, search);
   }, [currentPages, search]);
-  const fetchData = async (page,search) => {
+  const fetchData = async (page, search) => {
     try {
       const res = await axiosSecure.get(
         `/blogPage?page=${page}&limit=8&search=${search}`
@@ -32,8 +36,18 @@ const Blogs = () => {
       setCurrentPages(currentPages - 1);
     }
   };
+  const handleDetails = async (id) => {
+    if (currentUser?.email) {
+      navigate(`/articleDetails/${id}`);
+      const res = await axiosSecure.put(`/blogs/${id}`);
+      if (res?.data?.success) {
+        navigate(`/blog-details/${id}`);
+      }
+    } else if (!currentUser?.email) {
+      toast.error("Please Login first!");
+    }
+  };
 
-  // console.log(search);
   return (
     <div className="max-w-[1320px] mx-auto lg:mt-28 mt-20 lg:mb-36 mb-20">
       <Helmet>
@@ -52,7 +66,7 @@ const Blogs = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-14 lg:gap-36 md:gap-5 gap-5 mx-8 md:mx-5 lg:mx-0">
         {data?.map((item) => (
           <NavLink
-            to={`/blog-details/${item?._id}`}
+            onClick={() => handleDetails(item?._id)}
             className="lg:w-[390px] w-[350px] lg:h-[240px]"
           >
             <div key={item?._id} className="overflow-hidden rounded-lg">

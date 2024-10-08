@@ -12,18 +12,20 @@ const LatestCars = () => {
   if (isLoading) {
     <p>Loading.....</p>;
   }
-  
+
   return (
     <div className="max-w-[1320px] mx-auto mt-20 font-primary">
       <h1 className="text-center text-4xl font-bold ">Latest Cars</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-6 mt-10 ">
         {AllListing?.slice(0, 4)?.map((listing) => (
-          <div className="w-[300px] h-[420px] mx-auto flex-shrink-0 bg-gray-900 rounded-lg">
-            <img
-              src={listing?.carImage}
-              alt="cars"
-              className=" w-[300px] h-[218.66px] rounded-lg"
-            />
+          <div className="w-[300px] h-[420px] mx-auto flex-shrink-0 bg-gray-900 rounded-lg ">
+            <div className="overflow-hidden">
+              <img
+                src={listing?.carImage}
+                alt="cars"
+                className=" w-[300px] h-[218.66px] rounded-lg hover:scale-125 duration-300"
+              />
+            </div>
             <div className="py-4 px-4 text-white">
               <h1 className="text-white text-sm">
                 {listing?.type} <span>{listing?.year}</span>

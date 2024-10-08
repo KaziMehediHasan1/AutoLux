@@ -4,18 +4,26 @@ import {
   faTachometerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { IoIosSearch } from "react-icons/io";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import UseAxiosSecure from "../../Hooks/useAxiosSecure/UseAxiosSecure";
 import { Link, useLocation } from "react-router-dom";
+import { CiBookmark } from "react-icons/ci";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
+import useGetBookmark from "../../Hooks/Bookmark/useGetBookmark";
 
 const Listings = () => {
+  const { loading, currentUser } = useContext(AuthContext);
+  const [bookmarked, isLoading, refetch] = useGetBookmark();
+  const markedUser = currentUser?.email;
+  const [isBookLoading, setBookLoading] = useState(false);
   const axiosSecure = UseAxiosSecure();
   const location = useLocation();
   // Parse query parameters
-  const searchParams = new URLSearchParams(location.search);
+  const searchParams = new URLSearchParams(location?.search);
   const initialCondition = searchParams.get("condition") || "";
   const initialMake = searchParams.get("make") || "";
   const initialModel = searchParams.get("model") || "";
@@ -29,6 +37,7 @@ const Listings = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
     fetchData(currentPage);
   }, [currentPage, condition, make, model, price]);
@@ -64,6 +73,48 @@ const Listings = () => {
     fetchData();
   };
 
+  const handleBookmark = async (id) => {
+    setBookLoading((prev) => ({ ...prev, [id]: true }));
+
+    const currentBookmark = bookmarked.find(
+      (booked) => booked?.listingId === id && booked?.person === markedUser
+    );
+
+    try {
+      if (currentBookmark?.isBookmarked) {
+        // If already bookmarked, remove the bookmark
+        const res = await axiosSecure.put(`/bookmark/${id}`, {
+          person: markedUser,
+        });
+        if (res?.data.success) {
+          toast.success("Bookmark removed successfully");
+          refetch();
+        } else {
+          toast.error("Failed to remove bookmark");
+        }
+      } else {
+        // If not bookmarked, add it
+        const res = await axiosSecure.put(`/bookmark/${id}`, {
+          person: markedUser,
+        });
+
+        if (res?.data.success) {
+          toast.success("Bookmark added successfully");
+          refetch();
+        } else {
+          toast.error("Failed to add bookmark");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating bookmark", error);
+      toast.error("Something went wrong!");
+    } finally {
+      setBookLoading((prev) => ({ ...prev, [id]: false }));
+    }
+  };
+  if (loading || isLoading) {
+    <p className="mt-80 mx-auto">loading...</p>;
+  }
   return (
     <div className="max-w-[1320px] mx-auto md:mt-[170px] mt-20 font-primary">
       <Helmet>
@@ -160,6 +211,7 @@ const Listings = () => {
           </ul>
         </form>
       </div>
+
       {/* card */}
       <h1 className="text-4xl font-semibold my-5 md:pl-8 lg:pl-0 text-center lg:text-start md:py-4 pt-28">
         Listings
@@ -170,13 +222,40 @@ const Listings = () => {
             key={item?._id}
             className="w-[310px] h-[420px] flex-shrink-0 mx-auto bg-white shadow-md hover:shadow-lg rounded-xl"
           >
-            <div className="overflow-hidden">
-              <img
-                src={item?.carImage}
-                alt="cars"
-                className=" w-[300px] h-[218.66px] rounded-lg hover:scale-125 duration-300"
-              />
+            <div className="relative">
+              {/* Bookmark icon */}
+              {isBookLoading[item?._id] ? (
+                <div className="absolute top-2 right-2 bg-white w-8 h-8 rounded-full p-1 cursor-pointer z-10">
+                  <span className="loading loading-spinner text-primary hidden lg:block"></span>
+                  <span className="loading loading-ring loading-md lg:hidden block"></span>
+                </div>
+              ) : (
+                <CiBookmark
+                  onClick={() => handleBookmark(item?._id)}
+                  className={`absolute top-2 right-2 z-10 w-8 h-8 p-2 rounded-full cursor-pointer ${
+                    bookmarked?.find(
+                      (booked) =>
+                        booked?.person === markedUser &&
+                        booked?.listingId === item?._id &&
+                        booked?.isBookmarked
+                    )
+                      ? "bg-blue-500 text-white"
+                      : "bg-white"
+                  }`}
+                  disabled={isBookLoading[item?._id]} // Disable bookmark button while loading
+                />
+              )}
+
+              {/* Image container */}
+              <div className="overflow-hidden">
+                <img
+                  src={item?.carImage}
+                  alt="cars"
+                  className="w-[310px] h-[218.66px] rounded-lg hover:scale-125 duration-300"
+                />
+              </div>
             </div>
+
             <div className="py-4 px-4">
               <h1 className="text-sm">{item?.make}</h1>
               <p className="text-sm pt-1">{item?.drive}</p>
@@ -192,7 +271,13 @@ const Listings = () => {
                 </div>
                 <div className="pt-2 space-y-1 text-center">
                   <FontAwesomeIcon icon={faCogs} />
-                  <p className="text-center">{item?.transmission}</p>
+                  <p
+                    className={`text-center ${
+                      item?.transmission === "Semi-Automatic" && "text-[14px]"
+                    }`}
+                  >
+                    {item?.transmission}
+                  </p>
                 </div>
               </div>
               <Link to={`/car-details/${item?._id}`}>

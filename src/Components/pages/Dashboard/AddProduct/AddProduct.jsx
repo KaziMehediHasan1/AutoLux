@@ -1,18 +1,23 @@
-import { useCallback, useContext, useState } from "react";
-import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
-// img hosting and dropzone..
-import { useDropzone } from "react-dropzone";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useContext, useState } from "react";
 import { toast } from "react-toastify";
-import UseAxiosPublic from "../../../Hooks/useAxiosPublic/UseAxiosPublic";
+import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
 import UseAxiosSecure from "../../../Hooks/useAxiosSecure/UseAxiosSecure";
+import UseAxiosPublic from "../../../Hooks/useAxiosPublic/UseAxiosPublic";
+import { useNavigate } from "react-router-dom";
+import { useDropzone } from "react-dropzone";
+import { Helmet } from "react-helmet-async";
+import { Controller } from "react-hook-form";
 const image_hosting_key = "9911f27aca3347c387f577a495373922";
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
-const AddBlog = () => {
-  // user name, email, photo, blog => title, image, car/bikes description, comment section, view counting, etc..
+const AddProduct = () => {
   const { loading, currentUser } = useContext(AuthContext);
-  const [handleBlogInfo, setHandleBlogInfo] = useState(null);
+  const [handleProduct, setHandleProduct] = useState(null);
+  const axiosPublic = UseAxiosPublic();
+  const axiosSecure = UseAxiosSecure();
+  const [addImg, setAddImg] = useState(false);
+  const [loadingBtn, setLoadingBtn] = useState(false);
+  const [files, setFiles] = useState([]);
+  const navigate = useNavigate();
   const email = currentUser?.email;
   const name = currentUser?.displayName;
   const photo = currentUser?.photoURL;
@@ -21,12 +26,7 @@ const AddBlog = () => {
     authorName: name,
     authorPhoto: photo,
   };
-  const axiosPublic = UseAxiosPublic();
-  const axiosSecure = UseAxiosSecure();
-  const [addImg, setAddImg] = useState(false);
-  const [loadingBtn, setLoadingBtn] = useState(false);
-  const [files, setFiles] = useState([]);
-  const navigate = useNavigate();
+
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles?.length) {
       setFiles((previousFiles) => [
@@ -50,12 +50,21 @@ const AddBlog = () => {
     const form = e.target;
     const title = form.title.value;
     const description = form.description.value;
+    const price = form.price.value;
+    const category = form.category.value;
+    const tag = form.tag.value;
+    const longDescription = form.longDescription.value;
 
     const data = {
       title,
       description,
+      price,
+      category,
+      tag,
+      longDescription,
       authorData, // from your authorData state
     };
+    console.log(data);
 
     let imgUrls = []; // To store the image URLs
 
@@ -86,29 +95,30 @@ const AddBlog = () => {
     await Promise.all(promises);
 
     // Combine the data and image URLs
-    const blogInfo = {
+    const product = {
       ...data,
       images: imgUrls, // Add image URLs here
     };
 
     // Set the blog info to state
-    setHandleBlogInfo(blogInfo);
+    setHandleProduct(product);
 
     // Feedback to the user
-    toast.success("Blog data added, please check and post!");
+    toast.success("Product added, please check and post!");
   };
+
   const handlePost = async () => {
     try {
-      const res = await axiosSecure.post("/blogs", handleBlogInfo);
+      const res = await axiosSecure.post("/product", handleProduct);
       if (res?.data) {
-        toast.success("Blog successfully created");
-        setHandleBlogInfo(null);
-        navigate("/dashboard/all-blogs");
+        toast.success("Product successfully created");
+        setHandleProduct(null);
+        navigate("/dashboard/all-product");
       } else {
-        toast.error("Failed to create the blog.");
+        toast.error("Failed to create the product");
       }
     } catch (error) {
-      toast.error("Error creating blog.");
+      toast.error("Error creating product");
       console.log("Error:", error.message);
     }
   };
@@ -119,10 +129,13 @@ const AddBlog = () => {
   }
   return (
     <div className="font-primary lg:w-[1500px] md:w-[650px] w-[320px] mx-auto">
+      <Helmet>
+        <title>AutoLux | Add Product</title>
+      </Helmet>
       <section>
-        <h1 className="md:text-4xl text-2xl font-semibold">Add Blogs</h1>
+        <h1 className="md:text-4xl text-2xl font-semibold">Add Products</h1>
         <p className="text-gray-600 text-sm md:text-xl">
-          Add your blogs and selling fast!
+          Add a product and type product specification
         </p>
       </section>
       <form
@@ -203,18 +216,18 @@ const AddBlog = () => {
             </label>
           </div>
           {/* input field */}
-          <div className="grid grid-cols-4 gap-x-5 mb-5">
+          <div className="grid grid-cols-6 gap-x-5 mb-5 gap-y-3">
             <div className="col-span-2">
               <label
                 htmlFor="email"
                 className="block text-sm text-gray-500 dark:text-gray-300"
               >
-                Blog Title
+                Product title
               </label>
 
               <input
                 type="text"
-                placeholder="blog title"
+                placeholder="product title"
                 name="title"
                 className="mt-2 block w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
               />
@@ -230,7 +243,67 @@ const AddBlog = () => {
               <input
                 type="text"
                 name="description"
-                placeholder="blog description"
+                placeholder="product description"
+                className="mt-2 block w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+              />
+            </div>
+            <div className="col-span-2">
+              <label
+                htmlFor="price"
+                className="block text-sm text-gray-500 dark:text-gray-300"
+              >
+                Price
+              </label>
+
+              <input
+                type="text"
+                name="price"
+                placeholder="product price"
+                className="mt-2 block w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+              />
+            </div>
+            <div className="col-span-2">
+              <label
+                htmlFor="category"
+                className="block text-sm text-gray-500 dark:text-gray-300"
+              >
+                Category
+              </label>
+
+              <input
+                type="text"
+                name="category"
+                placeholder="category"
+                className="mt-2 block w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+              />
+            </div>
+            <div className="col-span-2">
+              <label
+                htmlFor="category"
+                className="block text-sm text-gray-500 dark:text-gray-300"
+              >
+                Tags
+              </label>
+
+              <input
+                type="text"
+                name="tag"
+                placeholder="tags"
+                className="mt-2 block w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+              />
+            </div>
+            <div className="col-span-2">
+              <label
+                htmlFor="long-description"
+                className="block text-sm text-gray-500 dark:text-gray-300"
+              >
+                Long Description
+              </label>
+
+              <input
+                type="text"
+                name="longDescription"
+                placeholder="long-description"
                 className="mt-2 block w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
               />
             </div>
@@ -264,4 +337,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default AddProduct;

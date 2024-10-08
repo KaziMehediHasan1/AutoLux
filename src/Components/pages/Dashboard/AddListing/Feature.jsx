@@ -52,7 +52,6 @@ const Feature = () => {
     // Get the properties with true values
     const trueProperties = getTrueValues(checkList);
     localStorage.setItem("car-feature", JSON.stringify(trueProperties));
-    // console.log(trueProperties);
     if (trueProperties) {
       navigate("/dashboard/add-listing/media");
       toast.success("car features successfully field-up");

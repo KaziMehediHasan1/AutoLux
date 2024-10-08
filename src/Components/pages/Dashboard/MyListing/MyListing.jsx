@@ -108,6 +108,7 @@ const MyListing = () => {
                         <p className="text-sm md:text-xl md:font-semibold lg:font-normal">{listing?.title}</p>
                         <p className="hidden lg:block">
                           {listing?.description.slice(0, 50)}..
+                          
                         </p>
                         <p className="lg:hidden text-xs">
                           {listing?.description.slice(0, 30)}..

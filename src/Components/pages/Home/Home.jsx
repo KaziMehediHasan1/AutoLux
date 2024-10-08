@@ -19,9 +19,9 @@ const Home = () => {
       <Hero></Hero>
       <CarType></CarType>
       <CarCard></CarCard>
-      <MostSearch></MostSearch>
-      <Choose></Choose>
+      {/* <MostSearch></MostSearch> */}
       <LatestCars></LatestCars>
+      <Choose></Choose>
       <OurTeam></OurTeam>
       <Blog></Blog>
       <Testimonial></Testimonial>

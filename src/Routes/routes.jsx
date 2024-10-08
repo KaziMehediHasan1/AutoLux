@@ -5,7 +5,6 @@ import Root from "../Components/Root/root";
 import Home from "../Components/pages/Home/Home";
 import Login from "../Components/Authentication/Login/Login";
 import Register from "../Components/Authentication/Register/Register";
-import Profile from "../Components/Pages/Dashboard/Dash_Profile/Profile";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 const LazyBlogs = React.lazy(() => import("../Components/Pages/Blog/Blogs"));
 import Contact from "../Components/Pages/HomeRouteSubmenu/Contact/Contact";
@@ -30,6 +29,11 @@ import UpdateBlog from "../Components/Pages/Blog/UpdateBlog/UpdateBlog";
 import BlogDetails from "../Components/Pages/Blog/BlogDetails/BlogDetails";
 import Cart from "../Components/Pages/ListingRoutes/Cart/Cart";
 import Listings from "../Components/Pages/ListingRoutes/Listings";
+import AddProduct from "../Components/Pages/Dashboard/AddProduct/AddProduct";
+import AllProduct from "../Components/Pages/Dashboard/AllProduct/AllProduct";
+import ProductDetails from "../Components/Shared/ProductDetails/ProductDetails";
+import Payment from "../Components/Payment/Payment";
+import CartProvider from "../Components/Pages/ListingRoutes/Cart/CartContext/CartProvider";
 
 const LazyAllBlogs = React.lazy(() =>
   import("../Components/Pages/Dashboard/AllBlog/AllBlog")
@@ -53,17 +57,38 @@ export const router = createBrowserRouter([
         element: <Shop></Shop>,
       },
       {
+        path: "/productDetails/:id",
+        element: (
+          <PrivateRoute>
+            <ProductDetails></ProductDetails>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "/cart",
-        element: <Cart></Cart>,
+        element: (
+          <PrivateRoute>
+            <CartProvider>
+              <Cart></Cart>
+            </CartProvider>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/listing",
-        element: <Listings></Listings>,
-        // loader: () => fetch("http://localhost:5000/listing-page"),
+        element: (
+          <PrivateRoute>
+            <Listings></Listings>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/membership",
         element: <Membership></Membership>,
+      },
+      {
+        path: "/payment",
+        element: <Payment></Payment>,
       },
       {
         path: "/about",
@@ -162,6 +187,14 @@ export const router = createBrowserRouter([
             element: <AddBlog></AddBlog>,
           },
           {
+            path: "add-product",
+            element: <AddProduct></AddProduct>,
+          },
+          {
+            path: "all-product",
+            element: <AllProduct></AllProduct>,
+          },
+          {
             path: "my-listing",
             element: <MyListing></MyListing>,
           },
@@ -177,14 +210,6 @@ export const router = createBrowserRouter([
           {
             path: "static-dashboard",
             element: <StaticDashboard> </StaticDashboard>,
-          },
-          {
-            path: "profile",
-            element: (
-              <PrivateRoute>
-                <Profile></Profile>
-              </PrivateRoute>
-            ),
           },
         ],
       },

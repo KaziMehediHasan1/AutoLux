@@ -14,7 +14,7 @@ import UseAxiosPublic from "../../Hooks/useAxiosPublic/UseAxiosPublic";
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const axiosPublic = UseAxiosPublic();
   // create user(email, pass)..
@@ -52,10 +52,9 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
   // authentication state observer and get user data..
-  useEffect(() =>{
-    const  unSubscriber =  onAuthStateChanged(auth, (user) => {
+  useEffect(() => {
+    const unSubscriber = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      const loggedInUser = user?.email || currentUser?.email;
       if (user) {
         // Get user's email or token
         const userEmail = user.email;
@@ -64,22 +63,15 @@ const AuthProvider = ({ children }) => {
         axiosPublic
           .post("/jwt", { email: userEmail })
           .then((res) => {
-            console.log("token pathanor age -", res.data);
-            if (res.data.token) {
-             localStorage.setItem("access-token", res.data.token); // Store token in local storage
+            if (res?.data?.token) {
+              localStorage.setItem("access-token", res?.data?.token); // Store token in local storage
               setLoading(false);
             }
           })
-          .catch((err) => {
-            console.error("Error logging in:", err);
-            setLoading(false);
-          });
       } else {
         localStorage.removeItem("access-token");
         setLoading(false);
       }
-
-      console.log(loggedInUser);
     });
     return () => {
       unSubscriber();

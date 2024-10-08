@@ -23,7 +23,7 @@ const Hero = () => {
     // Navigate to the listing page with query params
     navigate(`/listing?${queryParams}`);
   };
-  console.log(condition, make, model, price);
+
   return (
     <div className="bg-[#EEF1FB] w-full lg:h-[741.34px] flex-shrink-0 relative font-primary">
       <div className="top-20 md:top-28 absolute md:left-[33%] left-[10%] py-10">

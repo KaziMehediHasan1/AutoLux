@@ -16,8 +16,10 @@ const Media = () => {
   const navigate = useNavigate();
   const user = currentUser?.email;
   const [DataIsCreate, setDataIsCreate] = useState(false);
-  const [Data, setData] = useState();
+  const [data, setData] = useState();
   const [addImg, setAddImg] = useState(false);
+  const [handleListing, setHandleListing] = useState(null);
+  const [loadingBtn, setLoadingBtn] = useState(false);
   const axiosSecure = UseAxiosSecure();
   const axiosPublic = UseAxiosPublic();
   const [files, setFiles] = useState([]);
@@ -44,6 +46,8 @@ const Media = () => {
   // Handle image upload
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoadingBtn(true);
+    let imgUrls = [];
     const promises = files.map(async (file) => {
       const formData = new FormData();
       formData.append("image", file);
@@ -55,30 +59,26 @@ const Media = () => {
         });
 
         if (res?.data?.success) {
-          const imgURL = res?.data?.data?.display_url;
-          localStorage.setItem("car-image", JSON.stringify(imgURL));
-          localStorage.setItem("car-owner", JSON.stringify(user));
-          setAddImg(res?.data?.success);
+          imgUrls.push(res?.data?.data?.display_url);
+          setAddImg(true);
+          setLoadingBtn(false);
         }
 
         // Retrieve car details and feature data from localStorage
         const details = JSON.parse(localStorage.getItem("car-detail"));
         const feature = JSON.parse(localStorage.getItem("car-feature"));
-        const img = JSON.parse(localStorage.getItem("car-image"));
-        const owner = JSON.parse(localStorage.getItem("car-owner"));
-
         // Check if the data is correctly set
-        console.log({ details, feature, img, owner });
+        console.log({ details, feature }, "70");
 
         // Combine all data for the car listing
         const data = {
           ...details,
           carFeature: feature,
-          carImage: img,
-          user: owner,
+          carImage: imgUrls,
+          user: user,
         };
         setData(data);
-        return res.data;
+        return res?.data;
       } catch (error) {
         console.error("Error uploading image:", error);
       }
@@ -91,23 +91,16 @@ const Media = () => {
   // Post data to server and clear localStorage
   const handlePost = async () => {
     try {
-      const res = await axiosSecure.post("/listingDetail", Data);
-
+      const res = await axiosSecure.post("/listingDetail", data);
       if (res?.data) {
         // Remove items after successful post
         localStorage.removeItem("car-detail");
         localStorage.removeItem("car-feature");
-        localStorage.removeItem("car-image");
-        localStorage.removeItem("car-owner");
-
         toast.success("Post Your Car Data..");
-
         // Delay navigation to ensure removal happens first
         setTimeout(() => {
           navigate("/dashboard/my-listing");
-        }, 1000);
-
-        setDataIsCreate(res?.data);
+        }, 500);
       }
     } catch (err) {
       toast.error("Data not available..");
@@ -122,7 +115,7 @@ const Media = () => {
     >
       <h1>Gallery</h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-0 mt-3">
-        {files.map((file) => (
+        {files?.map((file) => (
           <span key={file.preview}>
             <img
               src={file.preview}
@@ -140,7 +133,10 @@ const Media = () => {
         ))}
       </div>
 
-      <div {...getRootProps()} className="flex items-center justify-center my-10 w-full">
+      <div
+        {...getRootProps()}
+        className="flex items-center justify-center my-10 w-full"
+      >
         <label
           htmlFor="dropzone-file"
           className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -167,7 +163,9 @@ const Media = () => {
             </svg>
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
               {isDragActive && <span className="text-2xl">Drop the image</span>}
-              <span className={`${!isDragActive ? "md:font-semibold" : "hidden"}`}>
+              <span
+                className={`${!isDragActive ? "md:font-semibold" : "hidden"}`}
+              >
                 Click to upload or drag and drop
               </span>
             </p>
@@ -175,26 +173,43 @@ const Media = () => {
               SVG, PNG, JPG or GIF (MAX. 800x400px)
             </p>
           </div>
-          <input {...getInputProps()} id="dropzone-file" type="file" className="hidden" />
+          <input
+            {...getInputProps()}
+            id="dropzone-file"
+            type="file"
+            className="hidden"
+          />
         </label>
       </div>
 
-      <p className={`${addImg ? "text-center font-semibold text-red-950 mb-5" : "hidden"}`}>
+      <p
+        className={`${
+          addImg ? "text-center font-semibold text-red-950 mb-5" : "hidden"
+        }`}
+      >
         Now Add your car! 😊
       </p>
 
       {/* Submit Data */}
       <div className="flex justify-center space-x-6">
-        {!addImg ? (
-          <button className="bg-blue-600 px-4 text-white rounded-lg md:px-8 py-2 text-xs md:text-[16px] btn">
-            Add Images
+        {!loadingBtn && addImg ? (
+          <button
+            onClick={handlePost}
+            className="bg-green-600 px-6 text-white rounded-lg py-1 btn w-full"
+          >
+            Post
           </button>
         ) : (
           <button
-            onClick={handlePost}
-            className="bg-green-500 px-6 text-white rounded-lg py-1 md:px-8 text-xs md:text-[16px] btn w-full"
+            type="submit"
+            className={`bg-blue-600 px-6 text-white rounded-lg py-1 w-full btn`}
+            disabled={loadingBtn} // Disable button while loading
           >
-            Add Listing
+            {loadingBtn ? (
+              <span className="loading loading-ring loading-sm bg-blue-950"></span> // Display spinner when loading
+            ) : (
+              "Add Blog info" // Display text when not loading
+            )}
           </button>
         )}
       </div>
