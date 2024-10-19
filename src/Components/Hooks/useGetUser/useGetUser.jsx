@@ -10,9 +10,7 @@ const useGetUser = () => {
   } = useQuery({
     queryKey: ["AllUsers"],
     queryFn: async () => {
-      const data = await axiosSecure.get(
-        `${import.meta.env.VITE_SERVER_PORT}/user`
-      );
+      const data = await axiosSecure.get(`/users`);
       return data.data;
     },
   });

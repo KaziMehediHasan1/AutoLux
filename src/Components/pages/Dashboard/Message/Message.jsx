@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 // Initialize socket connection
-const socket = io(import.meta.env.VITE_SERVER_URL || "http://localhost:5000", {
-  withCredentials: true,
-  extraHeaders: {
-    "Access-Control-Allow-Origin": "*",
-  },
-});
+// const socket = io(import.meta.env.VITE_SERVER_URL || "http://localhost:5000", {
+//   withCredentials: true,
+//   extraHeaders: {
+//     "Access-Control-Allow-Origin": "*",
+//   },
+// });
 
 const Message = () => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const userMail = searchParams.get("user");
+  // const location = useLocation();
+  // const searchParams = new URLSearchParams(location.search);
+  // const userMail = searchParams.get("user");
 
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const [onlineUsers, setOnlineUsers] = useState([]);
+  // const [message, setMessage] = useState("");
+  // const [messages, setMessages] = useState([]);
+  // const [isTyping, setIsTyping] = useState(false);
+  // const [onlineUsers, setOnlineUsers] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
     // Listen for incoming messages
     // socket.on("receiveMessage", (data) => {
     //   setMessages((prevMessages) => [...prevMessages, data]);
@@ -29,12 +29,12 @@ const Message = () => {
     // });
 
     // listening for server message
-    socket.on("welcome", (message) => {
-      console.log(message, "33 no line");
-    });
+    // socket.on("welcome", (message) => {
+    //   console.log(message, "33 no line");
+    // });
 
     // sending message to the server..
-    socket.emit("message", { user: "mehedi", text: "Hello from client" });
+    // socket.emit("message", { user: "mehedi", text: "Hello from client" });
 
     // Listen for typing indicator
     // socket.on("typing", (data) => {
@@ -52,28 +52,28 @@ const Message = () => {
     // });
 
     // Cleanup listeners on unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   // Handle sending a message
-  const sendMessage = (e) => {
-    e.preventDefault();
-    if (message) {
-      socket.emit("sendMessage", { content: message, to: userMail });
-      setMessage("");
-    }
-  };
+  // const sendMessage = (e) => {
+  //   e.preventDefault();
+  //   if (message) {
+  //     socket.emit("sendMessage", { content: message, to: userMail });
+  //     setMessage("");
+  //   }
+  // };
 
   // Handle typing indicator
-  const handleTyping = () => {
-    socket.emit("typing", { to: userMail });
-  };
+  // const handleTyping = () => {
+  //   socket.emit("typing", { to: userMail });
+  // };
 
-  const handleStopTyping = () => {
-    socket.emit("stopTyping", { to: userMail });
-  };
+  // const handleStopTyping = () => {
+  //   socket.emit("stopTyping", { to: userMail });
+  // };
 
   return (
     <div className="lg:w-[1320px] mx-auto lg:pt-28 pt-16 lg:pb-20 pb-2">
@@ -81,34 +81,34 @@ const Message = () => {
         <title>AutoLux | Message</title>
       </Helmet>
 
-      <form className="bg-slate-200 rounded-lg" onSubmit={sendMessage}>
+      <form className="bg-slate-200 rounded-lg" >
         {/* Display online users */}
-        <div className="p-4 border-b">
+        {/* <div className="p-4 border-b">
           <h2 className="text-lg font-semibold">Online Users:</h2>
           <ul>
             {onlineUsers.map((user, index) => (
               <li key={index}>{user}</li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
         {/* Display received messages */}
-        <div className="p-4">
+        {/* <div className="p-4">
           {messages.map((msg, index) => (
             <p key={index}>{msg.content}</p>
           ))}
-        </div>
+        </div> */}
 
         {/* Typing indicator */}
-        {isTyping && <p className="p-4">Typing...</p>}
+        {/* {isTyping && <p className="p-4">Typing...</p>} */}
         {/* Input and send button */}
         <div className="pt-[535px] h-[600px]">
           <div className="flex items-center px-3 py-3 bg-gray-50">
             <input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleTyping}
-              onKeyUp={handleStopTyping}
+              // value={message}
+              // onChange={(e) => setMessage(e.target.value)}
+              // onKeyDown={handleTyping}
+              // onKeyUp={handleStopTyping}
               className="block w-full text-sm text-gray-900 bg-white border border-gray-300 rounded-lg p-2.5"
               placeholder="Your message..."
             />

@@ -58,7 +58,6 @@ const Cart = () => {
   };
   useEffect(() => {
     if (sessionId) {
-      // Fetch session details from your backend
       axiosSecure
         .get(`/checkout-session?sessionId=${sessionId}`)
         .then((response) => {
@@ -71,7 +70,7 @@ const Cart = () => {
     }
   }, [sessionId]);
 
-  console.log(checkoutSession, "74 no line");
+  // console.log(checkoutSession, "74 no line");
 
   useEffect(() => {
     if (checkoutSession) {
@@ -110,8 +109,6 @@ const Cart = () => {
 
       <div className="flex flex-col p-6 space-y-4 sm:p-10 bg-gray-50 text-gray-800 rounded-lg">
         <h2 className="text-xl font-semibold">Your cart</h2>
-
-        {/* Mapping through listings */}
 
         {matchedData?.map((item) => (
           <div key={item?._id}>
