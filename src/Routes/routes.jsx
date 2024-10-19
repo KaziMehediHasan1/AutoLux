@@ -32,8 +32,8 @@ import Listings from "../Components/Pages/ListingRoutes/Listings";
 import AddProduct from "../Components/Pages/Dashboard/AddProduct/AddProduct";
 import AllProduct from "../Components/Pages/Dashboard/AllProduct/AllProduct";
 import ProductDetails from "../Components/Shared/ProductDetails/ProductDetails";
-import Payment from "../Components/Payment/Payment";
 import CartProvider from "../Components/Pages/ListingRoutes/Cart/CartContext/CartProvider";
+import Cancel from "../Components/Payment/cancel";
 
 const LazyAllBlogs = React.lazy(() =>
   import("../Components/Pages/Dashboard/AllBlog/AllBlog")
@@ -55,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: "/shop",
         element: <Shop></Shop>,
+      },
+      {
+        path: "/cancel",
+        element: <Cancel></Cancel>,
       },
       {
         path: "/productDetails/:id",
@@ -85,10 +89,6 @@ export const router = createBrowserRouter([
       {
         path: "/membership",
         element: <Membership></Membership>,
-      },
-      {
-        path: "/payment",
-        element: <Payment></Payment>,
       },
       {
         path: "/about",
@@ -134,6 +134,10 @@ export const router = createBrowserRouter([
             <CarDetails></CarDetails>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/message",
+        element: <Message></Message>,
       },
       {
         path: "dashboard",

@@ -80,7 +80,7 @@ const NavBar = () => {
   return (
     <nav
       id="nav-bar"
-      className="flex items-center justify-between font-primary lg:px-10 px-5 p-3 text-gray-800 fixed z-10 w-full transition-all duration-500 top-0 bg-white"
+      className="flex items-center justify-between font-primary lg:px-10 px-5 p-3 text-gray-800 fixed z-20 w-full transition-all duration-500 top-0 bg-white"
     >
       {/* Logo */}
       <Link to="/" className="text-2xl font-primary font-semibold">
@@ -283,7 +283,7 @@ const NavBar = () => {
             </button>
           </div>
 
-          <div className="space-y-3 p-3">
+          <div className="space-y-4 p-3">
             {/* Home Dropdown */}
             <div className="relative">
               <div className="flex items-center">
@@ -351,7 +351,7 @@ const NavBar = () => {
               Blog
             </NavLink>
             <div
-              className="relative"
+              className="relative pb-4"
               onMouseEnter={handleMouseEnterShop}
               onMouseLeave={handleMouseLeaveShop}
             >
@@ -399,16 +399,17 @@ const NavBar = () => {
             <NavLink
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               to="/contact"
-              className=" hover:text-blue-600 md:hidden lg:block"
+              className=" hover:text-blue-600 md:hidden lg:block "
             >
               Contact
             </NavLink>
 
             {/* Sign Out Button */}
+
             {currentUser ? (
               <button
                 onClick={handleLogout}
-                className="border-2 py-1 px-5  font-primary rounded-xl border-blue-500 font-medium"
+                className="border-2 py-1 grid px-5  font-primary rounded-xl border-blue-500 font-medium"
               >
                 Sign Out
               </button>
@@ -416,7 +417,7 @@ const NavBar = () => {
               <NavLink
                 to="/login"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="border-2 py-1 px-5 font-primary rounded-xl border-blue-500 font-medium"
+                className="border-2 py-1 px-5 font-primary grid rounded-xl border-blue-500 font-medium"
               >
                 Sign In
               </NavLink>

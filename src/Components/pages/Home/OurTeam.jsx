@@ -8,13 +8,11 @@ const OurTeam = () => {
             <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl dark:text-white">
               The Executive Team
             </h1>
-
             <div className="flex justify-center mx-auto mt-6">
               <span className="inline-block w-40 h-1 bg-blue-500 rounded-full"></span>
               <span className="inline-block w-3 h-1 mx-1 bg-blue-500 rounded-full"></span>
               <span className="inline-block w-1 h-1 bg-blue-500 rounded-full"></span>
             </div>
-
             <p className="max-w-3xl mx-auto text-center text-gray-500 dark:text-gray-300">
               Our car dealer team is a group of dedicated professionals
               committed to providing exceptional customer service. With in-depth
@@ -28,7 +26,6 @@ const OurTeam = () => {
             </p>
           </div>
         </div>
-
         <div className="container px-6 py-10 mx-auto -mt-72 sm:-mt-80 md:-mt-96">
           <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-3">
             <motion.div
@@ -102,11 +99,11 @@ const OurTeam = () => {
             >
               <img
                 className="object-cover w-full rounded-xl aspect-square"
-                src="https://i.ibb.co.com/92vc4xm/277782486-134011322503270-3350399541020934956-n.jpg"
+                src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               />
 
               <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white">
-                Rakib Mahmud
+                Alex Mink
               </h1>
 
               <p className="mt-2 text-gray-500 capitalize dark:text-gray-300">
@@ -160,19 +157,18 @@ const OurTeam = () => {
                 </a>
               </div>
             </motion.div>
-
             <motion.div
               whileHover={{ scale: 1.1 }}
               className="flex flex-col items-center p-4 border sm:p-6 rounded-xl dark:border-gray-700"
             >
               <img
                 className="object-cover w-full rounded-xl aspect-square"
-                src="https://i.ibb.co.com/R4fpMpk/433052167-3730780970539576-8659336760926225766-n.jpg"
+                src="https://images.pexels.com/photos/1181391/pexels-photo-1181391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt=""
               />
 
               <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white">
-                Md. Abu Taher
+                Daherul Khan
               </h1>
 
               <p className="mt-2 text-gray-500 capitalize dark:text-gray-300">

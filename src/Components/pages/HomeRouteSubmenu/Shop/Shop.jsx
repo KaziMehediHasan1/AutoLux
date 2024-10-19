@@ -40,7 +40,7 @@ const Shop = () => {
           <title>AutoLux | Shop</title>
         </Helmet>
       </div>
-      <h1 className="text-5xl mb-7 font-semibold">Shop -All Products</h1>
+      <h1 className="lg:text-5xl text-center md:text-start md:ml-7 lg:ml-0 text-3xl mb-7 font-semibold">Shop -All Products</h1>
       {/* Card section */}
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10 ">
         {allProduct?.map((item) => (

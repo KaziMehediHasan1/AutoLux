@@ -150,7 +150,7 @@ const MyListing = () => {
             )}
 
             {/* pagination */}
-            <div className="flex mt-8 md:mt-20 lg:mt-1 justify-center">
+            <div className="flex mt-8 md:mt-20 lg:mt-1 justify-center px-5">
               <button
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
@@ -167,7 +167,7 @@ const MyListing = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentPages(index + 1)}
-                  className={`px-2 md:px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-blue-500 hover:text-white ${
+                  className={`px-2 md:px-4 py-2 mx-1 hidden md:block text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-blue-500 hover:text-white ${
                     currentPage === index + 1 && "bg-blue-500 text-white"
                   }`}
                 >

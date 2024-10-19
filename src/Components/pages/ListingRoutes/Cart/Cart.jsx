@@ -1,25 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import UseAxiosSecure from "../../../Hooks/useAxiosSecure/UseAxiosSecure";
-import useProduct from "../../../Hooks/useProduct/useProduct";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MdFavoriteBorder } from "react-icons/md";
-import useGetCartData from "../../../Hooks/useGetCartData/useGetCartData";
 import { CartContext } from "./CartContext/CartProvider";
+import { loadStripe } from "@stripe/stripe-js";
+import { AuthContext } from "../../../Authentication/AuthProvider/AuthProvider";
 
 const Cart = () => {
-  const { loading, currentUser } = useContext(AuthContext);
+  const { currentUser, loading } = useContext(AuthContext);
+  const [searchParams] = useSearchParams("");
+  const sessionId = searchParams.get("session_id");
   const navigate = useNavigate();
-  const { matchedData, totalAmount } = useContext(CartContext);
-  console.log(matchedData, totalAmount, "data");
-  const user = currentUser?.email;
+  // const navigate = useNavigate();
+  const [checkoutSession, setCheckoutSession] = useState();
+  const { matchedData, totalAmount, isLoading, refetch } =
+    useContext(CartContext);
   const axiosSecure = UseAxiosSecure();
-  const [allProduct] = useProduct();
-  const [getData, isLoading, refetch] = useGetCartData();
   const handleRemove = async (id, title) => {
     try {
       const res = await axiosSecure.delete(`/cartItem/${id}`);
@@ -32,14 +32,76 @@ const Cart = () => {
       toast.error(`${title} was not removed`);
     }
   };
-  if (isLoading || loading) {
-    return <p className="mt-28">loading..</p>;
-  }
-  // Initialize the  to zero
-  const handleCartToPaymentForm = () => {
-    navigate(`/payment`);
-  };
 
+  // payment checkout..
+  const makePayment = async () => {
+    const products = matchedData?.map((item) => ({
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity,
+      images: item?.images[0],
+    }));
+
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+    const res = await axiosSecure.post("/create-checkout-session", products);
+    const sessionId = res.data.id;
+    console.log(sessionId);
+    if (sessionId) {
+      const result = await stripe.redirectToCheckout({
+        sessionId: sessionId,
+      });
+
+      if (result.error) {
+        console.log(result.error);
+      }
+    }
+  };
+  useEffect(() => {
+    if (sessionId) {
+      // Fetch session details from your backend
+      axiosSecure
+        .get(`/checkout-session?sessionId=${sessionId}`)
+        .then((response) => {
+          setCheckoutSession(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching checkout session:", error);
+        });
+    } else {
+    }
+  }, [sessionId]);
+
+  console.log(checkoutSession, "74 no line");
+
+  useEffect(() => {
+    if (checkoutSession) {
+      const paymentDataSaved = async () => {
+        const payment = {
+          email: currentUser?.email,
+          price: totalAmount,
+          transactionId: checkoutSession?.payment_intent,
+          cartId: matchedData?.map((item) => item?._id),
+          date: new Date(),
+        };
+        try {
+          const res = await axiosSecure.post("/payment", payment);
+          if (res?.data?.deleteCartData && res?.data?.saveProduct) {
+            toast.success("Payment successfully completed");
+            refetch();
+            navigate("/shop", { replace: true });
+          }
+        } catch (error) {
+          console.error("Error saving payment data:", error);
+          toast.error("Payment processing failed");
+        }
+      };
+      paymentDataSaved();
+    }
+  }, [checkoutSession]);
+
+  if (isLoading || loading) {
+    return <p className="pt-32">loading..</p>;
+  }
   return (
     <div className="max-w-[1320px] mx-auto lg:mt-20 mt-14 lg:mb-20 mb-20 font-primary">
       <Helmet>
@@ -48,6 +110,9 @@ const Cart = () => {
 
       <div className="flex flex-col p-6 space-y-4 sm:p-10 bg-gray-50 text-gray-800 rounded-lg">
         <h2 className="text-xl font-semibold">Your cart</h2>
+
+        {/* Mapping through listings */}
+
         {matchedData?.map((item) => (
           <div key={item?._id}>
             <ul className="flex flex-col divide-y divide-gray-300">
@@ -112,7 +177,7 @@ const Cart = () => {
         {/* Display total amount and buttons once after the map */}
         <div className="space-y-1 text-right mt-4">
           <p>
-            Total amount: <span className="font-semibold">$</span>
+            Total amount: <span className="font-semibold">${totalAmount}</span>
           </p>
           <p className="text-sm text-gray-600">
             Not including taxes and shipping costs
@@ -126,18 +191,18 @@ const Cart = () => {
           >
             Back to shop
           </Link>
-          {/* <button
-            onClick={() => handleCartToPaymentForm()}
+          <button
+            onClick={makePayment}
             type="button"
             className={`${
-               dd=== 0
+              totalAmount === 0
                 ? "bg-red-500 cursor-not-allowed px-6 py-2 border rounded-md text-gray-50"
                 : "px-6 py-2 border rounded-md bg-violet-600 text-gray-50 border-violet-600"
             } `}
-            disabled={ === 0}
+            disabled={totalAmount === 0}
           >
             Continue to Checkout
-          </button> */}
+          </button>
         </div>
       </div>
     </div>

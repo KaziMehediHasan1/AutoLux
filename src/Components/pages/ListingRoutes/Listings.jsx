@@ -113,17 +113,17 @@ const Listings = () => {
     }
   };
   if (loading || isLoading) {
-    <p className="mt-80 mx-auto">loading...</p>;
+    return <p className="mt-80  mx-auto">loading...</p>;
   }
   return (
-    <div className="max-w-[1320px] mx-auto md:mt-[170px] mt-20 font-primary">
+    <div className="max-w-[1320px] mx-auto md:mt-[100px] mt-20 font-primary">
       <Helmet>
         <title>AutoLux | Listings</title>
       </Helmet>
       {/* search field */}
-      <div className="lg:top-20 md:top-[85px] absolute lg:left-[26%] sm:top-0 md:left-[14%] left-[48px] mx-auto md:py-2 md:px-5 lg:px-2 md:w-[580px] lg:w-[880px] w-[300px] lg:py-3 rounded-3xl shadow-md shadow-blue-200">
+      <div className="lg:top-1  absolute lg:left-[26%] sm:top-0 md:left-[14%] left-[48px] mx-auto md:py-2 md:px-5 lg:px-2 md:w-[580px] lg:w-[880px] w-[300px] lg:py-3 rounded-3xl shadow-md shadow-blue-200">
         <form onSubmit={handleSubmit}>
-          <ul className="grid grid-cols-2 px-10 md:px-0 space-y-2 md:space-y-0 md:grid-cols-4 ">
+          <ul className="grid px-10 md:px-0 space-y-2 md:space-y-0 md:grid-cols-4">
             <li className="flex items-center p-2 md:p-0">
               <select
                 name="condition"
@@ -213,14 +213,15 @@ const Listings = () => {
       </div>
 
       {/* card */}
-      <h1 className="text-4xl font-semibold my-5 md:pl-8 lg:pl-0 text-center lg:text-start md:py-4 pt-28">
+      <h1 className="text-4xl font-semibold my-5 md:pl-8 lg:pl-0 text-center md:text-start md:py- md:pt-28 pt-56">
         Listings
       </h1>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:pt-3 pt-5">
         {data?.map((item) => (
           <div
             key={item?._id}
-            className="w-[310px] h-[420px] flex-shrink-0 mx-auto bg-white shadow-md hover:shadow-lg rounded-xl"
+            className="w-[310px] h-[420px] flex-shrink-0 mx-auto bg-white shadow-md hover:shadow-lg rounded-xl
+            "
           >
             <div className="relative">
               {/* Bookmark icon */}

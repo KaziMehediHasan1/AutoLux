@@ -19,7 +19,7 @@ const Membership = () => {
             <div className="flex w-full mb-8 sm:px-4 md:w-[360px] h-[440px]  lg:mb-0 ">
               <div className="flex flex-grow flex-col p-6 space-y-3 rounded shadow-md sm:p-8 bg-gray-50 ">
                 <div className="space-y-2 ">
-                  <h4 className="text-2xl font-bold">Basic</h4>
+                  <h4 className="text-2xl font-bold">Basic Plan</h4>
                   <span className="text-2xl">$23</span>
                 </div>
                 <p className=" leading-relaxed text-gray-600">

@@ -15,10 +15,8 @@ const Media = () => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const user = currentUser?.email;
-  const [DataIsCreate, setDataIsCreate] = useState(false);
   const [data, setData] = useState();
   const [addImg, setAddImg] = useState(false);
-  const [handleListing, setHandleListing] = useState(null);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const axiosSecure = UseAxiosSecure();
   const axiosPublic = UseAxiosPublic();

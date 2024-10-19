@@ -44,7 +44,7 @@ const Service = () => {
   };
 
   return (
-    <div className="max-w-[1320px] mx-auto mt-28 font-primary px-4 sm:px-6 lg:px-8">
+    <div className="max-w-[1320px] mx-auto mt-28 font-primary px-4 sm:px-6 lg:px-8 pb-10">
       <Helmet>
         <title>AutoLux | Service</title>
       </Helmet>

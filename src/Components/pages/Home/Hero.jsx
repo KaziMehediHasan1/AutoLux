@@ -26,14 +26,14 @@ const Hero = () => {
 
   return (
     <div className="bg-[#EEF1FB] w-full lg:h-[741.34px] flex-shrink-0 relative font-primary">
-      <div className="top-20 md:top-28 absolute md:left-[33%] left-[10%] py-10">
-        <p className="text-md lg:text-center font-medium text-gray-500">
+      <div className="top-20 md:top-20 lg:top-28 absolute lg:left-[33%] left-[13%] py-10 space-y-4 md:space-y-0">
+        <p className="text-md md:text-center font-medium text-gray-500 pl-2 ">
           Find cars for sale and for rent near you
         </p>
-        <h2 className="text-7xl font-semibold">Find Your Dream Car</h2>
+        <h2 className="lg:text-7xl text-6xl font-semibold">Find Your Dream Car</h2>
       </div>
       {/* search card */}
-      <div className="lg:top-72 md:top-[335px]  absolute lg:left-[29%] left-[14%] mx-auto py-2 md:px-5 lg:px-2 md:w-[580px] lg:w-[820px] lg:py-3  bg-white rounded-full shadow-md shadow-blue-200 hidden sm:block">
+      <div className="lg:top-72 md:top-[250px]  absolute lg:left-[29%] left-[14%] mx-auto py-2 md:px-5 lg:px-2 md:w-[580px] lg:w-[820px] lg:py-3  bg-white rounded-full shadow-md shadow-blue-200 hidden sm:block">
         <form onSubmit={handleSubmit}>
           <ul className="grid grid-cols-4">
             <li className="flex items-center">

@@ -6,7 +6,7 @@ import Choose from "./Choose";
 import Hero from "./Hero";
 import Join from "./Join";
 import LatestCars from "./LatestCars";
-import MostSearch from "./MostSearch";
+// import MostSearch from "./MostSearch";
 import OurTeam from "./OurTeam";
 import Testimonial from "./testimonial";
 

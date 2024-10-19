@@ -140,7 +140,7 @@ const AllBlog = () => {
               )
           )}
           {/* pagination */}
-          <div className="flex mt-20 lg:mt-14 justify-center">
+          <div className="flex md:pt-20 pt-5 lg:mt-14 justify-center">
             <button
               onClick={handlePrevPage}
               disabled={currentPage === 1}
@@ -157,7 +157,7 @@ const AllBlog = () => {
               <button
                 key={index}
                 onClick={() => setCurrentPages(index + 1)}
-                className={`px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-blue-500 hover:text-white ${
+                className={`px-4 py-2 mx-1 hidden md:block text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-blue-500 hover:text-white ${
                   currentPage === index + 1 && "bg-blue-500 text-white"
                 }`}
               >

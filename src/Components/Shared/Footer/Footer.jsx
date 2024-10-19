@@ -188,7 +188,20 @@ const Footer = () => {
         <p className="text-center text-gray-200 dark:text-gray-400">
           Terms & Conditions - AutoLux BD
         </p>
-        <a href="https://lordicon.com/" className="text-center text-gray-200 dark:text-gray-400">Icons by Lordicon.com</a>
+        <a
+          href="https://lordicon.com/"
+          className="text-center text-gray-200 dark:text-gray-400"
+        >
+          Icons by Lordicon.com
+        </a>
+        <a
+          href="https://iconscout.com/lottie-animations/successfully-done"
+          class="text-underline font-size-sm"
+          target="_blank"
+        >
+          Successfully Done
+        </a>{" "}
+        by{" "}
       </div>
     </footer>
   );

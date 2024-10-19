@@ -1,14 +1,89 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetListing from "../../Hooks/useGetListingData/useGetListing";
 import { IoCarSportOutline } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { TbEngine } from "react-icons/tb";
+import { ImSpinner9 } from "react-icons/im";
 import { GiCarDoor } from "react-icons/gi";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Authentication/AuthProvider/AuthProvider";
+import UseAxiosSecure from "../../Hooks/useAxiosSecure/UseAxiosSecure";
+import { toast } from "react-toastify";
+import useReviews from "../../Hooks/useReviews/useReviews";
+import {
+  Box,
+  Button,
+  Flex,
+  HoverCard,
+  Popover,
+  Text,
+  TextArea,
+} from "@radix-ui/themes/dist/cjs/index.js";
 const CarDetails = () => {
+  const { loading, currentUser } = useContext(AuthContext);
+  const [allReviews, isLoading, refetch] = useReviews();
+  const [reviewLoading, setReviewLoading] = useState(false);
+  const axiosSecure = UseAxiosSecure();
+  const navigate = useNavigate();
   const [AllListing] = useGetListing();
-  console.log(AllListing);
   const { id } = useParams();
+  const handleMessageDealer = (user) => {
+    const queryParams = new URLSearchParams({ user }).toString();
+    navigate(`/message?${queryParams}`);
+  };
+  // review add function..
+  const handleReview = async (id, review) => {
+    setReviewLoading(true);
+    const reviewData = {
+      name: currentUser?.displayName,
+      email: currentUser?.email,
+      image: currentUser?.photoURL,
+      review: review,
+      listId: id,
+    };
+    const res = await axiosSecure.post("/review", reviewData);
+    if (res?.data) {
+      setReviewLoading(false);
+      toast.success("review successfully add");
+      refetch();
+    }
+  };
+
+  // edit function..
+  const handleEdit = async (id, value) => {
+    if (id && value) {
+      const res = await axiosSecure.patch(
+        `/updateReview?value=${value}&id=${id}`
+      );
+      if (res?.data) {
+        toast.success("review updated");
+        refetch();
+      } else {
+        toast.error("review not update");
+      }
+    }
+  };
+  // delete function..
+  const handleDelete = async (id) => {
+    if (id) {
+      const res = await axiosSecure.delete(`/deleteOne/${id}`);
+      if (res.data) {
+        toast.success("review delete successful");
+        refetch();
+      } else {
+        toast.error("review not delete");
+      }
+    }
+  };
+
+  if (loading || isLoading) {
+    return (
+      <>
+        <span className="loading loading-spinner text-info mt-52 mx-[50%] w-14 h-10"></span>
+      </>
+    );
+  }
   return (
     <div className="max-w-[1320px] mx-auto md:mt-28 mt-20 font-primary">
       <>
@@ -20,7 +95,6 @@ const CarDetails = () => {
                   key={listing?._id}
                   className="grid grid-cols-1 lg:grid-cols-3 gap-x-8 mb-10"
                 >
-                  {/* images and form  */}
                   <div className="col-span-2 md:mx-4 lg:mx-0 px-2">
                     <div className="grid grid-cols-5 gap-x-4 space-x-3 items-center justify-center bg-gray-100 rounded-t-lg p-4">
                       <h1 className="text-3xl font-semibold col-span-3">
@@ -330,11 +404,14 @@ const CarDetails = () => {
                               : "Dealer name not found"}
                           </h1>
                           <h1 className="text-gray-500">{listing?.user}</h1>
-                          <Link>
-                            <button className="bg-blue-500 w-full py-2 mt-2 rounded-md text-white">
+                          <div>
+                            <button
+                              onClick={() => handleMessageDealer(listing?.user)}
+                              className="bg-blue-500 w-full py-2 mt-2 rounded-md text-white"
+                            >
                               Message Dealer
                             </button>
-                          </Link>
+                          </div>
                           <Link className="">
                             <button className="bg-green-500 w-full py-2 mt-2 rounded-md text-white">
                               WhatsApp
@@ -342,6 +419,159 @@ const CarDetails = () => {
                           </Link>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  {/* review section */}
+                  <div className="px-2 pt-14 w-[650px]">
+                    <h1 className="font-semibold text-3xl">Add a review</h1>
+                    <div className=" lg:w-[650px] space-y-5 pt-8">
+                      {/* avatar */}
+                      {allReviews?.map(
+                        (item) =>
+                          item?.listId === listing?._id && (
+                            <>
+                              <div className="py-3 flex items-center space-x-20">
+                                <div className="avatar">
+                                  <div className="w-12 rounded-full">
+                                    <img src={item?.image} />
+                                  </div>
+                                </div>
+                                <div className="lg:flex space-x-20">
+                                  <p className="font-semibold">{item?.name}</p>
+                                  <p>
+                                    {new Date(item?.createdAt).toLocaleString()}
+                                  </p>
+                                </div>
+                              </div>
+                              {/* review */}
+                              <Text>
+                                <HoverCard.Root>
+                                  <HoverCard.Trigger>
+                                    <p className="text-[17px] hover:font-semibold cursor-pointer inline-block capitalize">
+                                      {item?.review}
+                                    </p>
+                                  </HoverCard.Trigger>
+                                  {item?.email === currentUser?.email && (
+                                    <HoverCard.Content maxWidth="300px">
+                                      <Flex gap="4">
+                                        <Box>
+                                          <Text
+                                            as="div"
+                                            size="2"
+                                            color="gray"
+                                            mb="2"
+                                          >
+                                            Last update:{" "}
+                                            <span>
+                                              {new Date(
+                                                item?.updatedAt
+                                              ).toLocaleString()}
+                                            </span>
+                                          </Text>
+                                          <div className="space-x-3">
+                                            <Button>
+                                              <Popover.Root>
+                                                <Popover.Trigger>
+                                                  <Button variant="soft">
+                                                    <p className="text-white">
+                                                      Edit
+                                                    </p>
+                                                  </Button>
+                                                </Popover.Trigger>
+                                                <Popover.Content width="360px">
+                                                  <form
+                                                    onSubmit={(e) => {
+                                                      e.preventDefault();
+                                                      const editedId =
+                                                        e.target.update.value;
+                                                      handleEdit(
+                                                        item?._id,
+                                                        editedId
+                                                      );
+                                                    }}
+                                                  >
+                                                    <Flex gap="3">
+                                                      <Box flexGrow="1">
+                                                        <TextArea
+                                                          name="update"
+                                                          placeholder={
+                                                            item?.review
+                                                          }
+                                                          style={{ height: 80 }}
+                                                        />
+                                                        <Flex
+                                                          gap="3"
+                                                          mt="3"
+                                                          justify="between"
+                                                        >
+                                                          <Flex
+                                                            align="center"
+                                                            gap="2"
+                                                            asChild
+                                                          >
+                                                            <Text
+                                                              as="label"
+                                                              size="2"
+                                                            ></Text>
+                                                          </Flex>
+                                                          <Popover.Close>
+                                                            <button
+                                                              type="submit"
+                                                              className="bg-blue-600 text-white px-2 rounded-md"
+                                                            >
+                                                              Update
+                                                            </button>
+                                                          </Popover.Close>
+                                                        </Flex>
+                                                      </Box>
+                                                    </Flex>
+                                                  </form>
+                                                </Popover.Content>
+                                              </Popover.Root>
+                                            </Button>
+                                            <Button
+                                              onClick={() =>
+                                                handleDelete(item?._id)
+                                              }
+                                            >
+                                              Delete
+                                            </Button>
+                                          </div>
+                                        </Box>
+                                      </Flex>
+                                    </HoverCard.Content>
+                                  )}
+                                </HoverCard.Root>{" "}
+                              </Text>
+                            </>
+                          )
+                      )}
+                      <form
+                        className="pt-7"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          const reviewText = e.target.review.value;
+                          handleReview(listing?._id, reviewText);
+                        }}
+                      >
+                        <textarea
+                          name="review"
+                          className="lg:w-full lg:h-64 rounded-2xl resize-none ring-1 p-4"
+                          placeholder="Your Review.."
+                        ></textarea>
+                        <button
+                          type="submit"
+                          className="btn btn-primary w-1/4 mt-2"
+                        >
+                          {reviewLoading ? (
+                            <ImSpinner9 className=" animate-spin text-white w-5 h-6" />
+                          ) : (
+                            <span className="font-semibold text-[17px]">
+                              Submit
+                            </span>
+                          )}
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>

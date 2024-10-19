@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const Blogs = () => {
   const axiosSecure = UseAxiosSecure();
   const { loading, currentUser } = useContext(AuthContext);
-  const [data, setData] = useState();
+  const [data, setData, isLoading] = useState();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPages, setCurrentPages] = useState(1);
   const [search, setSearch] = useState("");
@@ -48,6 +48,16 @@ const Blogs = () => {
     }
   };
 
+  if (loading || isLoading) {
+    return (
+      <div className="mt-52 mx-[800px]">
+        <span className="loading loading-ball loading-xs"></span>
+        <span className="loading loading-ball loading-sm"></span>
+        <span className="loading loading-ball loading-md"></span>
+        <span className="loading loading-ball loading-lg"></span>
+      </div>
+    );
+  }
   return (
     <div className="max-w-[1320px] mx-auto lg:mt-28 mt-20 lg:mb-36 mb-20">
       <Helmet>
