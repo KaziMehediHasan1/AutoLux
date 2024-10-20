@@ -58,15 +58,17 @@ const Cart = () => {
   };
   useEffect(() => {
     if (sessionId) {
-      axiosSecure
-        .get(`/checkout-session?sessionId=${sessionId}`)
-        .then((response) => {
-          setCheckoutSession(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching checkout session:", error);
-        });
-    } else {
+      const checkOut = async () => {
+        await axiosSecure
+          .get(`/checkout-session?sessionId=${sessionId}`)
+          .then((response) => {
+            setCheckoutSession(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching checkout session:", error);
+          });
+      };
+      checkOut();
     }
   }, [sessionId]);
 
