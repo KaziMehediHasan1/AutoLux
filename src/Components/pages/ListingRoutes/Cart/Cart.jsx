@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import UseAxiosSecure from "../../../Hooks/useAxiosSecure/UseAxiosSecure";
 import { toast } from "react-toastify";
-import { Link, replace, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -70,7 +70,7 @@ const Cart = () => {
     }
   }, [sessionId]);
 
-  // console.log(checkoutSession, "74 no line");
+  console.log(checkoutSession, "74 no line");
 
   useEffect(() => {
     if (checkoutSession) {
@@ -84,7 +84,7 @@ const Cart = () => {
         };
         try {
           const res = await axiosSecure.post("/payment", payment);
-          if (res?.data?.deleteCartData && res?.data?.saveProduct) {
+          if (res?.data?.deleteCartData > 0 && res?.data?.saveProduct) {
             toast.success("Payment successfully completed");
             refetch();
             navigate("/shop", { replace: true });
