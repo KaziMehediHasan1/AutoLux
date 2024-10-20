@@ -45,7 +45,7 @@ const Register = () => {
                 Password: data?.password,
               };
               axiosPublic
-                .post(`${import.meta.env.VITE_SERVER_PORT}/user`, userInfo)
+                .post(`/user`, userInfo)
                 .then((res) => {
                   if (res.data) {
                     toast.success("Registration Successfully complete");
